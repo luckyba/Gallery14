@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View"/>
+
+        <variable
+            name="homeModel"
+            type="com.luckyba.myapplication.ui.home.HomeViewModel" />
+        <variable
+            name="observable"
+            type="com.luckyba.myapplication.ui.home.HomeViewModel.Observable" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_images_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:scrollbars="vertical"
+            android:visibility="@{!observable.isEmpty?View.VISIBLE: View.GONE}"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/empty"
+            android:textSize="18sp"
+            android:visibility="@{observable.isEmpty?View.VISIBLE: View.GONE}"
+            android:layout_centerInParent="true"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+</layout>
