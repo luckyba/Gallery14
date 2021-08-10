@@ -6,15 +6,13 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import com.luckyba.myapplication.data.responsitory.FileRepository
-import com.luckyba.myapplication.data.sort.SortingMode
-import com.luckyba.myapplication.data.sort.SortingOrder
 import java.util.concurrent.Callable
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
 
-class TaskRunner(val fileRepository: FileRepository) {
-    private val executor: Executor = Executors.newSingleThreadExecutor()
+class TaskRunner(private val fileRepository: FileRepository) {
+    private val executor: Executor = Executors.newScheduledThreadPool(2)
     private val handler = Handler(Looper.getMainLooper())
 
     companion object {
@@ -45,9 +43,9 @@ class TaskRunner(val fileRepository: FileRepository) {
         }
     }
 
-    class LoadAllMedia(private val sortingMode: SortingMode, private val sortingOrder: SortingOrder) : Callable<Any> {
+    class LoadAllMedia() : Callable<Any> {
         override fun call(): Any {
-            return fileRepository.getAlbums(sortingMode, sortingOrder)
+            return fileRepository.getAlbums()
         }
     }
 

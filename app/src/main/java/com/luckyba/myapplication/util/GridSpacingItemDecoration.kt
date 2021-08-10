@@ -9,31 +9,31 @@ class GridSpacingItemDecoration(
     private val spanCount: Int,
     private val spacing: Float,
     private val includeEdge: Boolean
-) :
-    ItemDecoration() {
-    companion object {
-        fun getItemOffsets(
-            gridSpacingItemDecoration: GridSpacingItemDecoration,
-            outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State?) {
-            val position = parent.getChildAdapterPosition(view)
-            val column = position % gridSpacingItemDecoration.spanCount
-            if (gridSpacingItemDecoration.includeEdge) {
-                outRect.left =
-                    (gridSpacingItemDecoration.spacing - column * gridSpacingItemDecoration.spacing / gridSpacingItemDecoration.spanCount).toInt()
-                outRect.right =
-                    ((column + 1) * gridSpacingItemDecoration.spacing / gridSpacingItemDecoration.spanCount).toInt()
-                if (position < gridSpacingItemDecoration.spanCount) {
-                    outRect.top = gridSpacingItemDecoration.spacing.toInt()
-                }
-                outRect.bottom = gridSpacingItemDecoration.spacing.toInt()
-            } else {
-                outRect.left =
-                    (column * gridSpacingItemDecoration.spacing / gridSpacingItemDecoration.spanCount).toInt()
-                outRect.right =
-                    (gridSpacingItemDecoration.spacing - (column + 1) * gridSpacingItemDecoration.spacing / gridSpacingItemDecoration.spanCount).toInt()
-                if (position >= gridSpacingItemDecoration.spanCount) {
-                    outRect.top = gridSpacingItemDecoration.spacing.toInt()
-                }
+) : ItemDecoration() {
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
+        val position = parent.getChildAdapterPosition(view!!) // item position
+        val column = position % spanCount // item column
+        if (includeEdge) {
+            outRect.left =
+                (spacing - column * spacing / spanCount).toInt() // spacing - column * ((1f / spanCount) * spacing)
+            outRect.right =
+                ((column + 1) * spacing / spanCount).toInt() // (column + 1) * ((1f / spanCount) * spacing)
+            if (position < spanCount) { // top edge
+                outRect.top = spacing.toInt()
+            }
+            outRect.bottom = spacing.toInt() // item bottom
+        } else {
+            outRect.left =
+                (column * spacing / spanCount).toInt() // column * ((1f / spanCount) * spacing)
+            outRect.right =
+                (spacing - (column + 1) * spacing / spanCount).toInt() // spacing - (column + 1) * ((1f /    spanCount) * spacing)
+            if (position >= spanCount) {
+                outRect.top = spacing.toInt() // item top
             }
         }
     }

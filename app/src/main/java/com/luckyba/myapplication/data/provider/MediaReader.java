@@ -22,14 +22,15 @@ import android.provider.MediaStore;
 
 import androidx.annotation.WorkerThread;
 
+import com.luckyba.myapplication.R;
+import com.luckyba.myapplication.data.model.AlbumFile;
+import com.luckyba.myapplication.data.model.AlbumFolder;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by YanZhenjie on 2017/8/15.
- */
 public class MediaReader {
 
     private Context mContext;
@@ -62,7 +63,8 @@ public class MediaReader {
             MediaStore.Images.Media.DATE_ADDED,
             MediaStore.Images.Media.LATITUDE,
             MediaStore.Images.Media.LONGITUDE,
-            MediaStore.Images.Media.SIZE
+            MediaStore.Images.Media.SIZE,
+            MediaStore.Images.Media.DATE_MODIFIED
     };
 
     /**
@@ -86,6 +88,7 @@ public class MediaReader {
                 float latitude = cursor.getFloat(4);
                 float longitude = cursor.getFloat(5);
                 long size = cursor.getLong(6);
+                long modifiedDate = cursor.getLong(7);
 
                 AlbumFile imageFile = new AlbumFile();
                 imageFile.setMediaType(AlbumFile.TYPE_IMAGE);
@@ -96,15 +99,15 @@ public class MediaReader {
                 imageFile.setLatitude(latitude);
                 imageFile.setLongitude(longitude);
                 imageFile.setSize(size);
-
-                if (mSizeFilter != null && mSizeFilter.filter(size)) {
-                    if (!mFilterVisibility) continue;
-                    imageFile.setDisable(true);
-                }
-                if (mMimeFilter != null && mMimeFilter.filter(mimeType)) {
-                    if (!mFilterVisibility) continue;
-                    imageFile.setDisable(true);
-                }
+//
+//                if (mSizeFilter != null && mSizeFilter.filter(size)) {
+//                    if (!mFilterVisibility) continue;
+//                    imageFile.setDisable(true);
+//                }
+//                if (mMimeFilter != null && mMimeFilter.filter(mimeType)) {
+//                    if (!mFilterVisibility) continue;
+//                    imageFile.setDisable(true);
+//                }
 
                 allFileFolder.addAlbumFile(imageFile);
                 AlbumFolder albumFolder = albumFolderMap.get(bucketName);
@@ -170,19 +173,19 @@ public class MediaReader {
                 videoFile.setLongitude(longitude);
                 videoFile.setSize(size);
                 videoFile.setDuration(duration);
-
-                if (mSizeFilter != null && mSizeFilter.filter(size)) {
-                    if (!mFilterVisibility) continue;
-                    videoFile.setDisable(true);
-                }
-                if (mMimeFilter != null && mMimeFilter.filter(mimeType)) {
-                    if (!mFilterVisibility) continue;
-                    videoFile.setDisable(true);
-                }
-                if (mDurationFilter != null && mDurationFilter.filter(duration)) {
-                    if (!mFilterVisibility) continue;
-                    videoFile.setDisable(true);
-                }
+//
+//                if (mSizeFilter != null && mSizeFilter.filter(size)) {
+//                    if (!mFilterVisibility) continue;
+//                    videoFile.setDisable(true);
+//                }
+//                if (mMimeFilter != null && mMimeFilter.filter(mimeType)) {
+//                    if (!mFilterVisibility) continue;
+//                    videoFile.setDisable(true);
+//                }
+//                if (mDurationFilter != null && mDurationFilter.filter(duration)) {
+//                    if (!mFilterVisibility) continue;
+//                    videoFile.setDisable(true);
+//                }
 
                 allFileFolder.addAlbumFile(videoFile);
                 AlbumFolder albumFolder = albumFolderMap.get(bucketName);

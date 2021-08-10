@@ -6,12 +6,7 @@ import android.text.Html;
 import android.text.Spanned;
 import android.widget.Toast;
 
-
-import androidx.annotation.NonNull;
-
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

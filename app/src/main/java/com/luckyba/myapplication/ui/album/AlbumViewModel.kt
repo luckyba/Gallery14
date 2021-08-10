@@ -3,11 +3,27 @@ package com.luckyba.myapplication.ui.album
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.luckyba.myapplication.app.GalleryApplication
+import com.luckyba.myapplication.data.model.AlbumFolder
+import com.luckyba.myapplication.data.model.TaskRunner
 
-class AlbumViewModel : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
+class AlbumViewModel : ViewModel(){
+
+    private val task: TaskRunner = TaskRunner(GalleryApplication.getRepository())
+
+    private var _listData = MutableLiveData<ArrayList<AlbumFolder>>()
+
+    var listData: LiveData<ArrayList<AlbumFolder>> = _listData
+
+    fun getAll() {
+        task.executeAsync(
+            TaskRunner.LoadAllMedia()
+            , ::onComplete)
     }
-    val text: LiveData<String> = _text
+
+    private fun onComplete(result: Any?) {
+        _listData.value = result as ArrayList<AlbumFolder>?
+    }
+
 }
