@@ -1,18 +1,4 @@
-/*
- * Copyright 2017 Yan Zhenjie.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 package com.luckyba.myapplication.data.provider;
 
 import android.content.ContentResolver;
@@ -25,6 +11,7 @@ import androidx.annotation.WorkerThread;
 import com.luckyba.myapplication.R;
 import com.luckyba.myapplication.data.model.AlbumFile;
 import com.luckyba.myapplication.data.model.AlbumFolder;
+import com.luckyba.myapplication.util.MediaType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -91,7 +78,7 @@ public class MediaReader {
                 long modifiedDate = cursor.getLong(7);
 
                 AlbumFile imageFile = new AlbumFile();
-                imageFile.setMediaType(AlbumFile.TYPE_IMAGE);
+                imageFile.setMediaType(MediaType.TYPE_IMAGE);
                 imageFile.setPath(path);
                 imageFile.setBucketName(bucketName);
                 imageFile.setMimeType(mimeType);
@@ -99,6 +86,7 @@ public class MediaReader {
                 imageFile.setLatitude(latitude);
                 imageFile.setLongitude(longitude);
                 imageFile.setSize(size);
+                imageFile.setModifiedDate(modifiedDate);
 //
 //                if (mSizeFilter != null && mSizeFilter.filter(size)) {
 //                    if (!mFilterVisibility) continue;
@@ -137,7 +125,8 @@ public class MediaReader {
             MediaStore.Video.Media.LATITUDE,
             MediaStore.Video.Media.LONGITUDE,
             MediaStore.Video.Media.SIZE,
-            MediaStore.Video.Media.DURATION
+            MediaStore.Video.Media.DURATION,
+            MediaStore.Video.Media.DATE_MODIFIED
     };
 
     /**
@@ -162,9 +151,10 @@ public class MediaReader {
                 float longitude = cursor.getFloat(5);
                 long size = cursor.getLong(6);
                 long duration = cursor.getLong(7);
+                long modifiedDate = cursor.getLong(8);
 
                 AlbumFile videoFile = new AlbumFile();
-                videoFile.setMediaType(AlbumFile.TYPE_VIDEO);
+                videoFile.setMediaType(MediaType.TYPE_VIDEO);
                 videoFile.setPath(path);
                 videoFile.setBucketName(bucketName);
                 videoFile.setMimeType(mimeType);
@@ -173,6 +163,7 @@ public class MediaReader {
                 videoFile.setLongitude(longitude);
                 videoFile.setSize(size);
                 videoFile.setDuration(duration);
+                videoFile.setModifiedDate(modifiedDate);
 //
 //                if (mSizeFilter != null && mSizeFilter.filter(size)) {
 //                    if (!mFilterVisibility) continue;

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +19,7 @@ import com.luckyba.myapplication.databinding.FragmentHomeBinding
 import com.luckyba.myapplication.util.GridSpacingItemDecoration
 import com.luckyba.myapplication.util.ObservableViewModel
 import com.luckyba.myapplication.util.StringUtils.showToast
+import com.luckyba.myapplication.viewmodel.HomeViewModel
 
 
 class HomeFragment : Fragment(), Listener{
@@ -34,15 +35,15 @@ class HomeFragment : Fragment(), Listener{
         binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_home, container, false
         );
-        binding.homeModel =
-                ViewModelProvider(this).get(HomeViewModel::class.java)
+        val viewModel: HomeViewModel by activityViewModels()
+        binding.homeModel= viewModel
         binding.observable = ObservableViewModel()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView()
-        binding.homeModel!!.getAll()
+//        binding.homeModel!!.getAll()
     }
 
     private fun initView () {
@@ -50,9 +51,9 @@ class HomeFragment : Fragment(), Listener{
 
         binding.homeModel!!.listData.observe(viewLifecycleOwner
             ,{
-                adapter.setData(it)
-                binding.observable!!.isEmpty.set(it.size == 0)
-                showToast(context,"Data ${it.size}")})
+                adapter.setData(it[0].albumFiles)
+                binding.observable!!.isEmpty.set(it[0].albumFiles.size == 0)
+                showToast(context,"Data ${it[0].albumFiles.size}")})
     }
 
     @SuppressLint("RestrictedApi")

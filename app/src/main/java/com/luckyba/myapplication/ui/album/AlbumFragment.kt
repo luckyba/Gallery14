@@ -6,14 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.internal.ViewUtils
 import com.luckyba.myapplication.app.Listener
+import com.luckyba.myapplication.data.model.AlbumFile
 import com.luckyba.myapplication.data.model.AlbumFolder
 import com.luckyba.myapplication.databinding.FragmentAlbumBinding
+import com.luckyba.myapplication.viewmodel.HomeViewModel
 import com.luckyba.myapplication.util.GridSpacingItemDecoration
 import com.luckyba.myapplication.util.ObservableViewModel
 import com.luckyba.myapplication.util.StringUtils.showToast
@@ -29,15 +31,14 @@ class AlbumFragment : Fragment(), Listener {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAlbumBinding.inflate(inflater, container, false)
-        binding.homeModel =
-            ViewModelProvider(this).get(AlbumViewModel::class.java)
+        val viewmodel: HomeViewModel by activityViewModels()
+        binding.homeModel = viewmodel
         binding.observable = ObservableViewModel()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initView()
-        binding.homeModel!!.getAll()
     }
 
     private fun initView () {

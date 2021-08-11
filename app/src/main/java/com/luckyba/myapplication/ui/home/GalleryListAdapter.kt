@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.luckyba.myapplication.app.Listener
 import com.luckyba.myapplication.data.model.AlbumFile
 import com.luckyba.myapplication.databinding.GalleryListItemViewBinding
-import com.luckyba.myapplication.util.StringUtils
 
 class GalleryListAdapter(private var listData: ArrayList<AlbumFile>?, private val listener: Listener) :
     RecyclerView.Adapter<GalleryListAdapter.ViewHolder>() {
@@ -26,7 +25,7 @@ class GalleryListAdapter(private var listData: ArrayList<AlbumFile>?, private va
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.mediafile = listData?.get(position)
         var albumFile = listData?.get(position)
-        Log.d("GalleryListAdapter","loadImage "+ albumFile?.DataToString())
+        Log.d("GalleryListAdapter","loadImage "+ albumFile?.dataToString())
 
         holder.itemView.setOnClickListener { v -> listener.onClick(v, position) }
         holder.itemView.setOnLongClickListener {v->

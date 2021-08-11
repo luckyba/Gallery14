@@ -7,7 +7,7 @@
 
         <variable
             name="homeModel"
-            type="com.luckyba.myapplication.ui.home.HomeViewModel" />
+            type="com.luckyba.myapplication.viewmodel.HomeViewModel" />
         <variable
             name="observable"
             type="com.luckyba.myapplication.util.ObservableViewModel" />
