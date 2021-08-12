@@ -18,18 +18,20 @@ package com.luckyba.myapplication.util
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
 
 /**
  * A ViewModel that is also an Observable, to be used with Data Binding.
  */
 class ObservableViewModel: BaseObservable() {
+
+    //observable toolbar
+    var changeTitleTb = ObservableField<IntArray>()
+
     var isEmpty = ObservableBoolean()
 
-    fun getIsEmpty(): ObservableBoolean {
-        return isEmpty
-    }
+    fun getTitle() = changeTitleTb
 
-    fun setIsEmpty(empty: Boolean) {
-        isEmpty.set(empty)
-    }
+    fun getIsEmpty() = isEmpty
+
 }

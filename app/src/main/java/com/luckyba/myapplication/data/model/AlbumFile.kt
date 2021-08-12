@@ -16,9 +16,8 @@
 package com.luckyba.myapplication.data.model
 
 import android.os.Parcelable
-import androidx.annotation.IntDef
+import com.luckyba.myapplication.ui.timeline.data.TimelineItem
 import com.luckyba.myapplication.util.MediaType
-import kotlinx.android.parcel.Parceler
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -33,7 +32,7 @@ data class AlbumFile(var path: String? = null
                      var duration: Long = 0,
                      var isChecked: Boolean = false,
                      var isDisable: Boolean = false,
-                     var modifiedDate: Long = 0) : Parcelable, Comparable<AlbumFile> {
+                     var modifiedDate: Long = 0) : Parcelable, Comparable<AlbumFile>, TimelineItem {
 
 
     override fun compareTo(albumFile: AlbumFile): Int {
@@ -62,4 +61,5 @@ data class AlbumFile(var path: String? = null
                 + " " + latitude + " " + longitude + " " + mediaType)
     }
 
+    override fun getTimelineType() = TimelineItem.TYPE_MEDIA
 }

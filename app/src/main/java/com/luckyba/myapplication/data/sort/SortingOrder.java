@@ -1,8 +1,5 @@
 package com.luckyba.myapplication.data.sort;
 
-/**
- * Created by dnld on 18/08/16.
- */
 
 public enum SortingOrder {
     ASCENDING(1), DESCENDING(0);

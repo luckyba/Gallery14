@@ -49,4 +49,27 @@ class TaskRunner(private val fileRepository: FileRepository) {
         }
     }
 
+    class DeleteAlbum (val listPath: List<String>): Callable<Any> {
+        override fun call(): Any {
+            return fileRepository.deleteAlbum(listPath)
+        }
+    }
+
+    class DeleteListFile (private val listPath: List<String>): Callable<Any> {
+        override fun call(): Any {
+            return fileRepository.deleteListFile(listPath)
+        }
+    }
+
+    class MoveFile (private val listPath: List<String>, private val outPath: String): Callable<Any> {
+        override fun call(): Any {
+            return fileRepository.moveFileToAlbum(listPath, outPath)
+        }
+    }
+
+    class CopyFile (private val listPath: List<String>, private val outPath: String): Callable<Any> {
+        override fun call(): Any {
+            return fileRepository.copyFile(listPath, outPath)
+        }
+    }
 }

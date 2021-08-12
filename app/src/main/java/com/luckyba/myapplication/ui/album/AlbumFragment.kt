@@ -12,13 +12,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.internal.ViewUtils
 import com.luckyba.myapplication.app.Listener
-import com.luckyba.myapplication.data.model.AlbumFile
 import com.luckyba.myapplication.data.model.AlbumFolder
 import com.luckyba.myapplication.databinding.FragmentAlbumBinding
-import com.luckyba.myapplication.viewmodel.HomeViewModel
 import com.luckyba.myapplication.util.GridSpacingItemDecoration
 import com.luckyba.myapplication.util.ObservableViewModel
 import com.luckyba.myapplication.util.StringUtils.showToast
+import com.luckyba.myapplication.viewmodel.GalleryViewModel
 
 class AlbumFragment : Fragment(), Listener {
     lateinit var binding: FragmentAlbumBinding
@@ -31,7 +30,7 @@ class AlbumFragment : Fragment(), Listener {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAlbumBinding.inflate(inflater, container, false)
-        val viewmodel: HomeViewModel by activityViewModels()
+        val viewmodel: GalleryViewModel by activityViewModels()
         binding.homeModel = viewmodel
         binding.observable = ObservableViewModel()
         return binding.root

@@ -5,9 +5,6 @@ import com.luckyba.myapplication.util.NumericComparator;
 
 import java.util.Comparator;
 
-/**
- * Created by dnld on 26/04/16.
- */
 public class AlbumsComparators {
 
     private static Comparator<AlbumFolder> getComparator(SortingMode sortingMode, Comparator<AlbumFolder> base) {

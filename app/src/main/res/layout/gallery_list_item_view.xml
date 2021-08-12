@@ -6,6 +6,12 @@
         <variable
             name="mediafile"
             type="com.luckyba.myapplication.data.model.AlbumFile" />
+        <variable
+            name="paddingValue"
+            type="int[]" />
+        <variable
+            name="animate"
+            type="int[]" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -21,6 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/album_dp_100"
             android:scaleType="centerCrop"
+            app:padding="@{paddingValue}"
             app:image="@{mediafile.path}" />
 
     </androidx.cardview.widget.CardView>

@@ -11,4 +11,44 @@
     <string name="album_title">Album title</string>
 
     <string name="set_album_title">(%1$d) %2$s</string>
+    <string name="set_toolbar_title">(%1$d) of %2$d</string>
+
+    <string name="filter_menu_title">Filter</string>
+    <string name="all">All</string>
+    <string name="videos">Video</string>
+    <string name="images">Images</string>
+    <string name="gifs">Gifs</string>
+
+    <string name="sort_menu_title">Sort</string>
+    <string name="name">Name</string>
+    <string name="date">Date</string>
+    <string name="date_taken">Date Taken</string>
+
+    <!-- Timeline -->
+    <string name="timeline_toolbar_title">Timeline</string>
+    <string name="timeline_grouping_menu_label">Grouping</string>
+    <string name="timeline_grouping_menu_day">Day</string>
+    <string name="timeline_grouping_menu_week">Week</string>
+    <string name="timeline_grouping_menu_month">Month</string>
+    <string name="timeline_grouping_menu_year">Year</string>
+
+    <!--ACTIONS-->
+    <string name="sort">Sort</string>
+    <string name="camera">Camera</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="hide">Hide</string>
+    <string name="unhide">Unhide</string>
+    <string name="ok_action">OK</string>
+    <string name="rename_photo_action">Rename photo</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="refresh">Refresh</string>
+    <string name="sent_to_action">Send to</string>
+    <string name="show_full">Show full</string>
+    <string name="select_all">Select All</string>
+    <string name="share">Share</string>
+    <string name="other">Other</string>
+    <string name="no_item_selected_cant_delete">\"No item is selected Can/\'t delete \"</string>
 </resources>

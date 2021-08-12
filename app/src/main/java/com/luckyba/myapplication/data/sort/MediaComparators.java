@@ -8,9 +8,6 @@ import com.luckyba.myapplication.util.NumericComparator;
 
 import java.util.Comparator;
 
-/**
- * Created by dnld on 26/04/16.
- */
 
 public class MediaComparators {
 
@@ -42,7 +39,7 @@ public class MediaComparators {
     }
 
     private static Comparator<AlbumFile> getDateComparator() {
-        return (f1, f2) -> (int) (f1.getAddDate()- (f2.getAddDate()));
+        return (f1, f2) -> (int) (f1.getModifiedDate()- (f2.getModifiedDate()));
     }
 
     private static Comparator<AlbumFile> getNameComparator() {

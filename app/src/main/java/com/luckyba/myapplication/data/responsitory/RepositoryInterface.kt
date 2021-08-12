@@ -2,8 +2,6 @@ package com.luckyba.myapplication.data.responsitory
 
 import com.luckyba.myapplication.data.model.AlbumFile
 import com.luckyba.myapplication.data.model.AlbumFolder
-import com.luckyba.myapplication.data.sort.SortingMode
-import com.luckyba.myapplication.data.sort.SortingOrder
 
 interface RepositoryInterface {
     fun getAllMedia(): ArrayList<AlbumFile>
@@ -11,5 +9,12 @@ interface RepositoryInterface {
     fun getMedias(): ArrayList<AlbumFile>
     fun getAlbums(): ArrayList<AlbumFolder>
 
-    fun getHiddenAlbums(sortingMode: SortingMode, sortingOrder: SortingOrder): ArrayList<AlbumFolder>
+    fun getHiddenAlbums(): ArrayList<AlbumFolder>
+
+    fun deleteListFile (listPath: List<String>): Boolean
+    fun deleteAlbum (listPath: List<String>): Boolean
+    fun moveFileToAlbum (listPath: List<String>, outPath: String): Boolean
+    fun copyFile (listPath: List<String>, outPath: String): Boolean
+
+
 }
