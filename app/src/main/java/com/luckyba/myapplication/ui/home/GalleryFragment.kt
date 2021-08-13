@@ -1,6 +1,7 @@
 package com.luckyba.myapplication.ui.home
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.annotation.IdRes
@@ -17,17 +18,20 @@ import com.luckyba.myapplication.data.sort.MediaComparators
 import com.luckyba.myapplication.data.sort.SortingMode
 import com.luckyba.myapplication.data.sort.SortingOrder
 import com.luckyba.myapplication.databinding.FragmentHomeBinding
+import com.luckyba.myapplication.ui.media.MediaActivity
 import com.luckyba.myapplication.ui.timeline.GroupingMode
 import com.luckyba.myapplication.util.DeviceUtils
 import com.luckyba.myapplication.util.DeviceUtils.TIMELINE_ITEMS_LANDSCAPE
 import com.luckyba.myapplication.util.DeviceUtils.TIMELINE_ITEMS_PORTRAIT
 import com.luckyba.myapplication.util.FilterMode
 import com.luckyba.myapplication.util.ObservableViewModel
+import com.luckyba.myapplication.util.StringUtils.ACTION_OPEN_ALBUM
+import com.luckyba.myapplication.util.StringUtils.EXTRA_ARGS_ALBUM
+import com.luckyba.myapplication.util.StringUtils.EXTRA_ARGS_POSITION
 import com.luckyba.myapplication.util.StringUtils.showToast
 import com.luckyba.myapplication.viewmodel.GalleryViewModel
 import java.util.*
 import kotlin.collections.ArrayList
-
 
 class GalleryFragment : BaseMediaGridFragment(), ActionsListener{
     lateinit var binding: FragmentHomeBinding
@@ -130,7 +134,7 @@ class GalleryFragment : BaseMediaGridFragment(), ActionsListener{
                 showToast(context, "Delete")
                 if (adapter.getSelectedCount() == 0) {
                     showToast(context, getString(R.string.no_item_selected_cant_delete)); false
-                } else { deleteFile(); true }
+                } else { binding.homeModel!!.deleteListFile(adapter.getPathSelectedItem()); true }
             }
 
             R.id.timeline_menu_select_all -> {
@@ -184,13 +188,13 @@ class GalleryFragment : BaseMediaGridFragment(), ActionsListener{
         FilterMode.NO_VIDEO -> R.id.all_media_filter
     }
 
-    fun deleteFile () {
-        binding.homeModel!!.getAll()
-    }
-
-
     override fun onItemSelected(position: Int) {
         showToast(context, " click selected item ")
+        val intent = Intent(context, MediaActivity::class.java)
+        intent.putExtra(EXTRA_ARGS_ALBUM, binding.homeModel!!.listData.value?.get(0))
+        intent.action = ACTION_OPEN_ALBUM
+        intent.putExtra(EXTRA_ARGS_POSITION, position)
+        activity?.startActivity(intent)
     }
 
     override fun onSelectMode(selectMode: Boolean) {

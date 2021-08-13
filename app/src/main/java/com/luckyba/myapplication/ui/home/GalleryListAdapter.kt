@@ -38,7 +38,7 @@ class GalleryListAdapter(
 
 
     fun setGridLayoutManager(gridLayoutManager: GridLayoutManager) {
-        gridLayoutManager.setSpanSizeLookup(object : GridLayoutManager.SpanSizeLookup() {
+        gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 val timelineItem: TimelineItem = getItem(position)
 
@@ -48,7 +48,7 @@ class GalleryListAdapter(
 
                 // Else, a media item takes up a single space
             }
-        })
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -112,7 +112,6 @@ class GalleryListAdapter(
     fun isSelecting() = selectedPositions.isNotEmpty()
     fun getSelectedCount() = selectedPositions.size
     fun getMediaCount() = listData!!.size
-
 
     fun setData(@NonNull mediaList: ArrayList<AlbumFile>) {
         listData = mediaList
@@ -282,6 +281,15 @@ class GalleryListAdapter(
             (timelineItem as AlbumFile).isChecked = false
         }
         notifyDataSetChanged()
+    }
+
+    fun getPathSelectedItem (): MutableSet<String> {
+        val listPathS: MutableSet<String> = hashSetOf()
+        for (pos in selectedPositions) {
+            (timelineItems!![pos] as AlbumFile).path?.let { listPathS.add(it) }
+        }
+        Log.d("fdsfdsa", "path $listPathS")
+        return listPathS
     }
 
 }

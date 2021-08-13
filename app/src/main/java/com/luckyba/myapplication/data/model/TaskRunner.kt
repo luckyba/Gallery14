@@ -49,27 +49,28 @@ class TaskRunner(private val fileRepository: FileRepository) {
         }
     }
 
-    class DeleteAlbum (val listPath: List<String>): Callable<Any> {
-        override fun call(): Any {
-            return fileRepository.deleteAlbum(listPath)
-        }
-    }
-
-    class DeleteListFile (private val listPath: List<String>): Callable<Any> {
+    class DeleteListFile (private val listPath: MutableSet<String>): Callable<Any> {
         override fun call(): Any {
             return fileRepository.deleteListFile(listPath)
         }
     }
 
-    class MoveFile (private val listPath: List<String>, private val outPath: String): Callable<Any> {
+    class MoveFile (private val listPath: MutableSet<String>, private val outPath: String): Callable<Any> {
         override fun call(): Any {
             return fileRepository.moveFileToAlbum(listPath, outPath)
         }
     }
 
-    class CopyFile (private val listPath: List<String>, private val outPath: String): Callable<Any> {
+    class CopyFile (private val listPath: MutableSet<String>, private val outPath: String): Callable<Any> {
         override fun call(): Any {
             return fileRepository.copyFile(listPath, outPath)
         }
     }
+
+    class ReNameFile (private val path: String,private val  oldName: String,private val  newName: String): Callable<Any> {
+        override fun call(): Any {
+            return fileRepository.reName(path, oldName, newName)
+        }
+    }
+
 }

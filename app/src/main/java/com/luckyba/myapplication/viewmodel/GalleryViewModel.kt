@@ -10,7 +10,7 @@ import com.luckyba.myapplication.data.model.TaskRunner
 import com.luckyba.myapplication.util.FilterMode
 import com.luckyba.myapplication.util.MediaType
 
-class GalleryViewModel : ViewModel(){
+class GalleryViewModel : ViewModel() {
 
     private val task: TaskRunner = TaskRunner(GalleryApplication.getRepository())
 
@@ -19,13 +19,32 @@ class GalleryViewModel : ViewModel(){
     var listData: LiveData<ArrayList<AlbumFolder>> = _listData
 
     fun getAll() {
-        task.executeAsync(TaskRunner.LoadAllMedia()
-            , ::onComplete)
+        task.executeAsync(
+            TaskRunner.LoadAllMedia(), ::onLoadComplete
+        )
+    }
+
+    private fun onLoadComplete(result: Any?) {
+        _listData.value = result as ArrayList<AlbumFolder>
     }
 
     private fun onComplete(result: Any?) {
-        _listData.value = result as ArrayList<AlbumFolder>
+        if (result as Boolean) {
+            getAll()
+        }
     }
+
+    fun deleteListFile(listPath: MutableSet<String>) =
+        task.executeAsync(TaskRunner.DeleteListFile(listPath), ::onComplete)
+
+    fun moveFile(listPath: MutableSet<String>, outPath: String) =
+        task.executeAsync(TaskRunner.MoveFile(listPath, outPath), ::onComplete)
+
+    fun copyFile(listPath: MutableSet<String>, outPath: String) =
+        task.executeAsync(TaskRunner.CopyFile(listPath, outPath), ::onComplete)
+
+    fun renameFile(path: String, oldName: String, newName: String) =
+        task.executeAsync(TaskRunner.ReNameFile(path, oldName,  newName), ::onComplete)
 
     fun getDataFilterBy(filterMode: FilterMode): ArrayList<AlbumFile> {
         return when (filterMode) {

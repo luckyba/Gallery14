@@ -23,7 +23,7 @@ class AlbumAdapter(private var listData: ArrayList<AlbumFolder>?, private var li
     }
 
     override fun getItemCount(): Int {
-        return listData?.size?:0
+        return listData?.size!!
     }
 
     class AlbumViewHolder(var binding: AlbumItemBinding): RecyclerView.ViewHolder(binding.root)

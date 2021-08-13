@@ -42,12 +42,18 @@ class AlbumFragment : Fragment(), Listener {
 
     private fun initView () {
         initRecycleView()
-
         binding.homeModel!!.listData.observe(viewLifecycleOwner
             ,{
-                adapter.setData(it)
-                binding.observable!!.isEmpty.set(it.size == 0)
-                showToast(context,"Data ${it.size}")})
+                if (it[0].albumFiles.size > 0) {
+                    adapter.setData(it)
+                    binding.observable!!.isEmpty.set(false)
+                    showToast(context,"Data ${it.size}")
+                } else {
+                    adapter.setData(ArrayList())
+                    binding.observable!!.isEmpty.set(true)
+                }
+            })
+
     }
 
     @SuppressLint("RestrictedApi")

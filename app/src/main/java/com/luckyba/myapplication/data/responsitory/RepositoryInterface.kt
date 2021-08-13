@@ -11,10 +11,10 @@ interface RepositoryInterface {
 
     fun getHiddenAlbums(): ArrayList<AlbumFolder>
 
-    fun deleteListFile (listPath: List<String>): Boolean
-    fun deleteAlbum (listPath: List<String>): Boolean
-    fun moveFileToAlbum (listPath: List<String>, outPath: String): Boolean
-    fun copyFile (listPath: List<String>, outPath: String): Boolean
-
-
+    fun deleteListFile (listPath: MutableSet<String>): Boolean
+    fun deleteAlbum (listPath: MutableSet<String>): Boolean
+    fun moveFileToAlbum (listPath: MutableSet<String>, outPath: String): Boolean
+    fun copyFile (listPath: MutableSet<String>, outPath: String): Boolean
+    fun createAlbum (albumName: String, listPath: MutableSet<String>): Boolean
+    fun reName(path: String,oldName: String, newName: String): Boolean
 }
