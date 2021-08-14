@@ -3,7 +3,7 @@ package com.luckyba.myapplication.ui.album
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.luckyba.myapplication.app.Listener
+import com.luckyba.myapplication.common.Listener
 import com.luckyba.myapplication.data.model.AlbumFolder
 import com.luckyba.myapplication.databinding.AlbumItemBinding
 

@@ -1,31 +1,35 @@
 package com.luckyba.myapplication.ui.media
 
-import android.content.Context
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.viewpager.widget.PagerAdapter
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
+import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.luckyba.myapplication.data.model.AlbumFile
-import com.luckyba.myapplication.util.GalleryBindingAdapter.loadImage
+import com.luckyba.myapplication.ui.media.fragment.ImageFragment
+import com.luckyba.myapplication.ui.media.fragment.VideoFragment
+import com.luckyba.myapplication.util.MediaType
+import kotlin.collections.ArrayList
 
-class MediaPagerAdapter(val context: Context, private val listAlbumFile: ArrayList<AlbumFile>) : PagerAdapter() {
+class MediaPagerAdapter(fm: FragmentManager,lifecycle: Lifecycle,  private var media: ArrayList<AlbumFile>) :
+    FragmentStateAdapter(fm, lifecycle) {
 
-    override fun getCount(): Int {
-        return listAlbumFile.size
+    override fun getItemCount(): Int {
+        return if(media.size >100) 50
+        else media.size
+//        return media.size
     }
 
-    override fun isViewFromObject(view: View, `object`: Any): Boolean {
-        return view == `object`
+    override fun createFragment(position: Int): Fragment {
+        val media = media[position]
+        return when(media.mediaType) {
+            MediaType.TYPE_IMAGE -> ImageFragment.newInstance(media)
+            MediaType.TYPE_VIDEO -> VideoFragment.newInstance(media)
+            else -> ImageFragment.newInstance(media)
+        }
     }
 
-    override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val image = ImageView(context)
-        listAlbumFile[position].path?.let { loadImage(image, it) }
-        container.addView(image)
-        return image
-    }
-
-    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-        container.removeView(`object` as View)
+    fun setData(arrayList: ArrayList<AlbumFile>) {
+        media = arrayList
+        notifyDataSetChanged()
     }
 }

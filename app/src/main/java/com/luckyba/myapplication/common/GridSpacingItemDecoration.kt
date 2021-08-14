@@ -1,4 +1,4 @@
-package com.luckyba.myapplication.util
+package com.luckyba.myapplication.common
 
 import android.graphics.Rect
 import android.view.View
@@ -16,7 +16,7 @@ class GridSpacingItemDecoration(
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
-        val position = parent.getChildAdapterPosition(view!!) // item position
+        val position = parent.getChildAdapterPosition(view) // item position
         val column = position % spanCount // item column
         if (includeEdge) {
             outRect.left =

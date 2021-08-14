@@ -16,6 +16,10 @@ class GalleryViewModel : ViewModel() {
 
     private var _listData = MutableLiveData<ArrayList<AlbumFolder>>()
 
+    private var _dataChange = MutableLiveData<Boolean>()
+
+    var isDataChanged: LiveData<Boolean> = _dataChange
+
     var listData: LiveData<ArrayList<AlbumFolder>> = _listData
 
     fun getAll() {
@@ -31,7 +35,8 @@ class GalleryViewModel : ViewModel() {
     private fun onComplete(result: Any?) {
         if (result as Boolean) {
             getAll()
-        }
+            _dataChange.value = true
+        } else _dataChange.value = false
     }
 
     fun deleteListFile(listPath: MutableSet<String>) =

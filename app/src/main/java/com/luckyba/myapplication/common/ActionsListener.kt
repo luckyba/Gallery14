@@ -1,4 +1,4 @@
-package com.luckyba.myapplication.app
+package com.luckyba.myapplication.common
 
 interface ActionsListener {
 

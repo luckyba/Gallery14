@@ -10,7 +10,7 @@ import androidx.annotation.DimenRes
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.luckyba.myapplication.app.ActionsListener
+import com.luckyba.myapplication.common.ActionsListener
 import com.luckyba.myapplication.data.model.AlbumFile
 import com.luckyba.myapplication.data.sort.SortingOrder
 import com.luckyba.myapplication.databinding.GalleryHeaderItemBinding
@@ -43,7 +43,7 @@ class GalleryListAdapter(
                 val timelineItem: TimelineItem = getItem(position)
 
                 // If we have a header item, occupy the entire width
-                return if (timelineItem.timelineType === TimelineItem.TYPE_HEADER) timelineGridSize
+                return if (timelineItem.timelineType == TimelineItem.TYPE_HEADER) timelineGridSize
                 else 1
 
                 // Else, a media item takes up a single space
@@ -66,7 +66,7 @@ class GalleryListAdapter(
         return getItem(position).timelineType
     }
 
-    private fun getItem(pos: Int) = timelineItems!![pos]
+     fun getItem(pos: Int) = timelineItems!![pos]
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val timelineItem = getItem(position)
@@ -81,13 +81,13 @@ class GalleryListAdapter(
                 holder.binding.paddingValue = intArrayOf(0, 0, 0, 0)
             }
 
-            galleryViewHolder.itemView.setOnClickListener { v ->
-                if (isSelecting()) triggerSelection(holder.getAdapterPosition())
+            galleryViewHolder.itemView.setOnClickListener {
+                if (isSelecting()) triggerSelection(holder.getAbsoluteAdapterPosition())
                 else displayMedia(timelineItem)
             }
-            galleryViewHolder.itemView.setOnLongClickListener { v ->
-                if (isSelecting()) triggerSelectionAllUpTo(holder.getAdapterPosition())
-                else triggerSelection(holder.getAdapterPosition())
+            galleryViewHolder.itemView.setOnLongClickListener {
+                if (isSelecting()) triggerSelectionAllUpTo(holder.getAbsoluteAdapterPosition())
+                else triggerSelection(holder.getAbsoluteAdapterPosition())
                 true
             }
 
@@ -137,7 +137,7 @@ class GalleryListAdapter(
                 currentDate = mediaDate
                 val timelineHeaderModel = TimelineHeaderModel(mediaDate)
                 timelineHeaderModel.setHeaderText(groupingMode!!.getGroupHeader(mediaDate))
-                Log.d("fdasfsa", " date " + groupingMode!!.getGroupHeader(mediaDate))
+//                Log.d("fdasfsa", " date " + groupingMode!!.getGroupHeader(mediaDate))
                 timelineItemList.add(position + headersAdded, timelineHeaderModel)
                 headersAdded++
             }
@@ -239,19 +239,18 @@ class GalleryListAdapter(
     }
 
     private fun displayMedia(timelineItem: TimelineItem) {
-        for (pos in listData!!.indices) {
-            val mediaItem: AlbumFile = listData!![pos]
-            if (mediaItem == timelineItem) {
-                actionsListener.onItemSelected(pos)
-                return
-            }
+        if (timelineItem.timelineType == TimelineItem.TYPE_MEDIA) {
+            actionsListener.onItemSelected(listData!!.indexOf(timelineItem))
         }
     }
 
     fun clearSelected(): Boolean {
         val oldSelections: Set<Int> = HashSet(selectedPositions)
         selectedPositions.clear()
-        for (selectedPos in oldSelections) notifyItemChanged(selectedPos)
+        for (selectedPos in oldSelections) {
+            (timelineItems?.get(selectedPos) as AlbumFile).isChecked = false
+            notifyItemChanged(selectedPos)
+        }
         return true
     }
 

@@ -1,0 +1,31 @@
+<layout>
+
+    <data>
+        <variable
+            name="path"
+            type="String" />
+    </data>
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/video_play_icon"
+            android:layout_width="@dimen/video_play_icon_size"
+            android:layout_height="@dimen/video_play_icon_size"
+            android:layout_gravity="center"
+            android:alpha="0.7"
+            android:elevation="10dp" />
+
+        <ImageView
+            android:id="@+id/media_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ripple"
+            app:video="@{path}"
+            />
+
+    </FrameLayout>
+
+</layout>

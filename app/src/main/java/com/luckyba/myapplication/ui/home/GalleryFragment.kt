@@ -11,9 +11,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.luckyba.myapplication.R
-import com.luckyba.myapplication.app.ActionsListener
-import com.luckyba.myapplication.app.BaseMediaGridFragment
+import com.luckyba.myapplication.common.ActionsListener
+import com.luckyba.myapplication.common.BaseMediaGridFragment
 import com.luckyba.myapplication.data.model.AlbumFile
+import com.luckyba.myapplication.data.model.AlbumFolder
 import com.luckyba.myapplication.data.sort.MediaComparators
 import com.luckyba.myapplication.data.sort.SortingMode
 import com.luckyba.myapplication.data.sort.SortingOrder
@@ -24,22 +25,24 @@ import com.luckyba.myapplication.util.DeviceUtils
 import com.luckyba.myapplication.util.DeviceUtils.TIMELINE_ITEMS_LANDSCAPE
 import com.luckyba.myapplication.util.DeviceUtils.TIMELINE_ITEMS_PORTRAIT
 import com.luckyba.myapplication.util.FilterMode
+import com.luckyba.myapplication.util.GalleryUtil.Companion.isMaxBundle
 import com.luckyba.myapplication.util.ObservableViewModel
-import com.luckyba.myapplication.util.StringUtils.ACTION_OPEN_ALBUM
+import com.luckyba.myapplication.util.StringUtils
 import com.luckyba.myapplication.util.StringUtils.EXTRA_ARGS_ALBUM
-import com.luckyba.myapplication.util.StringUtils.EXTRA_ARGS_POSITION
+import com.luckyba.myapplication.util.StringUtils.EXTRA_ARGS_MEDIA
 import com.luckyba.myapplication.util.StringUtils.showToast
 import com.luckyba.myapplication.viewmodel.GalleryViewModel
 import java.util.*
 import kotlin.collections.ArrayList
 
-class GalleryFragment : BaseMediaGridFragment(), ActionsListener{
+
+class GalleryFragment : BaseMediaGridFragment(), ActionsListener {
     lateinit var binding: FragmentHomeBinding
     lateinit var adapter: GalleryListAdapter
     private lateinit var recycleView: RecyclerView
     private lateinit var gridLayoutManager: GridLayoutManager
 
-    var listData: ArrayList<AlbumFile> = ArrayList()
+    var albumFolder: AlbumFolder = AlbumFolder()
 
     private lateinit var groupingMode: GroupingMode
 
@@ -77,12 +80,24 @@ class GalleryFragment : BaseMediaGridFragment(), ActionsListener{
         initRecycleView()
         setHasOptionsMenu(true)
         binding.homeModel!!.listData.observe(viewLifecycleOwner, {
+            albumFolder = it[0]
             val albumFiles = it[0].albumFiles
-            Collections.sort(albumFiles, MediaComparators.getComparator(SortingMode.DATE, SortingOrder.DESCENDING))
+            Collections.sort(
+                albumFiles, MediaComparators.getComparator(
+                    SortingMode.DATE,
+                    SortingOrder.DESCENDING
+                )
+            )
             adapter.setData(albumFiles)
             binding.observable!!.isEmpty.set(albumFiles.size == 0)
             showToast(context, "Data ${albumFiles.size}")
         })
+
+        binding.homeModel!!.isDataChanged.observe(viewLifecycleOwner, ::dataChanged)
+    }
+
+    private fun dataChanged (isChanged: Boolean) {
+        if (isChanged) exitContextMenu()
     }
 
     @SuppressLint("RestrictedApi")
@@ -98,7 +113,7 @@ class GalleryFragment : BaseMediaGridFragment(), ActionsListener{
 
         recycleView.itemAnimator = DefaultItemAnimator()
         recycleView.isNestedScrollingEnabled = false
-        adapter = GalleryListAdapter(listData, this)
+        adapter = GalleryListAdapter(ArrayList(),this)
         adapter.setTimelineGridSize(timelineGridSize)
         adapter.setGroupingMode(groupingMode)
         adapter.setGridLayoutManager(gridLayoutManager)
@@ -134,7 +149,10 @@ class GalleryFragment : BaseMediaGridFragment(), ActionsListener{
                 showToast(context, "Delete")
                 if (adapter.getSelectedCount() == 0) {
                     showToast(context, getString(R.string.no_item_selected_cant_delete)); false
-                } else { binding.homeModel!!.deleteListFile(adapter.getPathSelectedItem()); true }
+                } else {
+                    binding.homeModel!!.deleteListFile(adapter.getPathSelectedItem());
+                    true
+                }
             }
 
             R.id.timeline_menu_select_all -> {
@@ -142,9 +160,9 @@ class GalleryFragment : BaseMediaGridFragment(), ActionsListener{
                 if (adapter.getSelectedCount() == adapter.getMediaCount()) {
                     adapter.deSelectAll()
                     item.title = "Select All"
-                }
-                else {
+                } else {
                     adapter.selectAll()
+                    updateToolbar()
                     item.title = "Deselect All"
                 }
                 true
@@ -189,12 +207,31 @@ class GalleryFragment : BaseMediaGridFragment(), ActionsListener{
     }
 
     override fun onItemSelected(position: Int) {
-        showToast(context, " click selected item ")
+        showToast(context, " click selected item $position")
         val intent = Intent(context, MediaActivity::class.java)
-        intent.putExtra(EXTRA_ARGS_ALBUM, binding.homeModel!!.listData.value?.get(0))
-        intent.action = ACTION_OPEN_ALBUM
-        intent.putExtra(EXTRA_ARGS_POSITION, position)
-        activity?.startActivity(intent)
+        val bundle = Bundle()
+        bundle.putParcelable(EXTRA_ARGS_ALBUM, albumFolder)
+
+        if(!isMaxBundle(bundle)) {
+            intent.action = StringUtils.ACTION_OPEN_ALBUM
+            intent.putExtra(EXTRA_ARGS_ALBUM, albumFolder)
+            intent.putExtra(StringUtils.EXTRA_ARGS_POSITION, position)
+            requireActivity().startActivity(intent)
+        } else {
+            intent.action = StringUtils.ACTION_OPEN_ALBUM_LAYZY
+            intent.putExtra(EXTRA_ARGS_MEDIA, albumFolder.albumFiles[position])
+            requireActivity().startActivity(intent)
+        }
+
+
+    }
+
+    fun convertToPath(list: ArrayList<AlbumFile>): ArrayList<String> {
+        var listPath: ArrayList<String> = ArrayList()
+        for (album in list) {
+            album.path?.let { listPath.add(it) }
+        }
+        return listPath
     }
 
     override fun onSelectMode(selectMode: Boolean) {
@@ -215,8 +252,8 @@ class GalleryFragment : BaseMediaGridFragment(), ActionsListener{
     }
 
     override fun getToolbarTitle() = when(editMode()) {
-        true->null
-        false-> getString(R.string.title_library)
+        true -> null
+        false -> getString(R.string.title_library)
     }
 
     override fun editMode() = adapter.isSelecting()

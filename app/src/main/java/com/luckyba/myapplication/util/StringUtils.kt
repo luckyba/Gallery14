@@ -12,12 +12,13 @@ import java.util.regex.Pattern
  * Created by dnld on 1/3/16.
  */
 object StringUtils {
-     val ACTION_OPEN_ALBUM = "com.luckyba.myapplication.intent.VIEW_ALBUM"
-     val ACTION_REVIEW = "com.android.camera.action.REVIEW"
+    val ACTION_OPEN_ALBUM = "com.luckyba.myapplication.intent.VIEW_ALBUM"
+    val ACTION_OPEN_ALBUM_LAYZY = "com.luckyba.myapplication.intent.VIEW_ALBUM_LAZY"
+    val ACTION_REVIEW = "com.android.camera.action.REVIEW"
 
-     val EXTRA_ARGS_ALBUM = "args_album"
-     val EXTRA_ARGS_MEDIA = "args_media"
-     val EXTRA_ARGS_POSITION = "args_position"
+    val EXTRA_ARGS_ALBUM = "args_album"
+    val EXTRA_ARGS_MEDIA = "args_media"
+    val EXTRA_ARGS_POSITION = "args_position"
 
     fun getPhotoNameByPath(path: String): String {
         val b = path.split("/".toRegex()).toTypedArray()

@@ -51,4 +51,6 @@
     <string name="share">Share</string>
     <string name="other">Other</string>
     <string name="no_item_selected_cant_delete">\"No item is selected Can/\'t delete \"</string>
+    <string name="welcome_to_gallery_14">Welcome to Gallery 14!</string>
+    <string name="go_settings_to_grant_manage_storage_permission">Go settings to grant manage storage permission</string>
 </resources>

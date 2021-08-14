@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="animate"
+            type="android.view.animation.Animation" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <TextView
+            android:id="@+id/tv_welcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/welcome_to_gallery_14"
+            android:textSize="30sp"
+            android:textStyle="italic"
+            android:gravity="center"
+            app:setAnimate="@{animate}"
+            android:layout_centerInParent="true"
+            />
+
+        <Button
+            android:id="@+id/bnt_permission"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/go_settings_to_grant_manage_storage_permission"
+            android:layout_centerHorizontal="true"
+            android:onClick="onclickRequestPermission"
+            android:layout_marginBottom="@dimen/album_dp_30"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+</layout>

@@ -1,4 +1,4 @@
-package com.luckyba.myapplication.app
+package com.luckyba.myapplication.common
 
 import android.content.Context
 import android.view.View
