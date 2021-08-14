@@ -13,12 +13,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.internal.ViewUtils
+import com.luckyba.myapplication.common.GridSpacingItemDecoration
 import com.luckyba.myapplication.common.Listener
 import com.luckyba.myapplication.data.model.AlbumFolder
 import com.luckyba.myapplication.databinding.FragmentAlbumBinding
 import com.luckyba.myapplication.ui.media.MediaActivity
 import com.luckyba.myapplication.util.GalleryUtil
-import com.luckyba.myapplication.common.GridSpacingItemDecoration
 import com.luckyba.myapplication.util.ObservableViewModel
 import com.luckyba.myapplication.util.StringUtils
 import com.luckyba.myapplication.util.StringUtils.showToast

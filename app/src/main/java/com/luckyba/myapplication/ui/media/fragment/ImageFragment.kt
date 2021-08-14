@@ -24,6 +24,7 @@ class ImageFragment : BaseMediaFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_photo, container, false)
+        setHasOptionsMenu(false)
         return binding.root
     }
 

@@ -1,21 +1,16 @@
 package com.luckyba.myapplication.util
 
-import android.graphics.Bitmap
 import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.BindingAdapter
-import androidx.databinding.BindingMethod
-import androidx.databinding.BindingMethods
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
 import com.luckyba.myapplication.R
-import com.luckyba.myapplication.ui.welcome.WelcomeActivity
 import java.io.File
 
 object GalleryBindingUtil {

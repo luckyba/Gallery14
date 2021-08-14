@@ -24,19 +24,21 @@ class VideoFragment : BaseMediaFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_video, container, false)
+        setHasOptionsMenu(false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.path = media.path
-        binding.videoPlayIcon.setOnClickListener {
-            val uri = Uri.parse(media.path)
-            val intent = Intent(Intent.ACTION_VIEW).setDataAndType(uri, media.mimeType)
-            intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-            startActivity(intent)
-        }
+        binding.fragment = this
+    }
 
+    fun onClickPlay() {
+        val uri = Uri.parse(media.path)
+        val intent = Intent(Intent.ACTION_VIEW).setDataAndType(uri, media.mimeType)
+        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        startActivity(intent)
     }
 
     companion object {

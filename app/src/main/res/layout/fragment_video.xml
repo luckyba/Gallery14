@@ -4,6 +4,11 @@
         <variable
             name="path"
             type="String" />
+
+        <variable
+            name="fragment"
+            type="com.luckyba.myapplication.ui.media.fragment.VideoFragment" />
+
     </data>
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -15,6 +20,8 @@
             android:layout_width="@dimen/video_play_icon_size"
             android:layout_height="@dimen/video_play_icon_size"
             android:layout_gravity="center"
+            android:onClick="@{()->fragment.onClickPlay()}"
+            android:background="@drawable/ic_round_play_circle_filled_24"
             android:alpha="0.7"
             android:elevation="10dp" />
 
