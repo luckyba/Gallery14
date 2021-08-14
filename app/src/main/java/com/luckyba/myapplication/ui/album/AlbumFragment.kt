@@ -3,7 +3,6 @@ package com.luckyba.myapplication.ui.album
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.os.Parcel
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -82,23 +81,14 @@ class AlbumFragment : Fragment(), Listener {
         if(!GalleryUtil.isMaxBundle(bundle)) {
             intent.action = StringUtils.ACTION_OPEN_ALBUM
             intent.putExtra(StringUtils.EXTRA_ARGS_ALBUM, albumFolder[position])
-            intent.putExtra(StringUtils.EXTRA_ARGS_POSITION, 0)
+            intent.putExtra(StringUtils.EXTRA_ARGS_POSITION, position)
             requireActivity().startActivity(intent)
         } else {
             intent.action = StringUtils.ACTION_OPEN_ALBUM_LAYZY
             intent.putExtra(StringUtils.EXTRA_ARGS_MEDIA, albumFolder[position].albumFiles[0])
+            intent.putExtra(StringUtils.EXTRA_ARGS_POSITION, position)
             requireActivity().startActivity(intent)
         }
-    }
-
-    fun getBundleSizeInBytes(bundle : Bundle) : Int {
-        val parcel = Parcel.obtain()
-        parcel.writeValue(bundle)
-
-        val bytes = parcel.marshall()
-        parcel.recycle()
-
-        return bytes.size
     }
 
     override fun onLongClick(view: View, pos: Int) {

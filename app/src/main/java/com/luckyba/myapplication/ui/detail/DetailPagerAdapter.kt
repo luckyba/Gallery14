@@ -1,15 +1,15 @@
-package com.luckyba.myapplication.ui.media
+package com.luckyba.myapplication.ui.detail
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.luckyba.myapplication.data.model.AlbumFile
-import com.luckyba.myapplication.ui.media.fragment.ImageFragment
-import com.luckyba.myapplication.ui.media.fragment.VideoFragment
+import com.luckyba.myapplication.ui.detail.fragment.ImageFragment
+import com.luckyba.myapplication.ui.detail.fragment.VideoFragment
 import com.luckyba.myapplication.util.MediaType
 
-class MediaPagerAdapter(
+class DetailPagerAdapter(
     fm: FragmentManager,
     lifecycle: Lifecycle,
     private var media: ArrayList<AlbumFile>

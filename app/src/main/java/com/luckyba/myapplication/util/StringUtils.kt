@@ -19,6 +19,7 @@ object StringUtils {
     val EXTRA_ARGS_ALBUM = "args_album"
     val EXTRA_ARGS_MEDIA = "args_media"
     val EXTRA_ARGS_POSITION = "args_position"
+    val EXTRA_ARGS_AlBUM_TITLE = "args_title"
 
     fun getPhotoNameByPath(path: String): String {
         val b = path.split("/".toRegex()).toTypedArray()

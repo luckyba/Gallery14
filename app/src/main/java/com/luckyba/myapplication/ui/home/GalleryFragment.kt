@@ -19,8 +19,9 @@ import com.luckyba.myapplication.data.sort.MediaComparators
 import com.luckyba.myapplication.data.sort.SortingMode
 import com.luckyba.myapplication.data.sort.SortingOrder
 import com.luckyba.myapplication.databinding.FragmentHomeBinding
-import com.luckyba.myapplication.ui.media.MediaActivity
+import com.luckyba.myapplication.ui.detail.DetailActivity
 import com.luckyba.myapplication.ui.timeline.GroupingMode
+import com.luckyba.myapplication.ui.timeline.TimelineAdapter
 import com.luckyba.myapplication.util.DeviceUtils
 import com.luckyba.myapplication.util.DeviceUtils.TIMELINE_ITEMS_LANDSCAPE
 import com.luckyba.myapplication.util.DeviceUtils.TIMELINE_ITEMS_PORTRAIT
@@ -38,7 +39,7 @@ import kotlin.collections.ArrayList
 
 class GalleryFragment : BaseMediaGridFragment(), ActionsListener {
     lateinit var binding: FragmentHomeBinding
-    lateinit var adapter: GalleryListAdapter
+    lateinit var adapter: TimelineAdapter
     private lateinit var recycleView: RecyclerView
     private lateinit var gridLayoutManager: GridLayoutManager
 
@@ -102,7 +103,7 @@ class GalleryFragment : BaseMediaGridFragment(), ActionsListener {
 
     @SuppressLint("RestrictedApi")
     fun initRecycleView() {
-        val decorator = GalleryListAdapter.TimelineItemDecorator(
+        val decorator = TimelineAdapter.TimelineItemDecorator(
             requireContext(),
             R.dimen.timeline_decorator_spacing
         )
@@ -113,7 +114,7 @@ class GalleryFragment : BaseMediaGridFragment(), ActionsListener {
 
         recycleView.itemAnimator = DefaultItemAnimator()
         recycleView.isNestedScrollingEnabled = false
-        adapter = GalleryListAdapter(ArrayList(),this)
+        adapter = TimelineAdapter(ArrayList(),this)
         adapter.setTimelineGridSize(timelineGridSize)
         adapter.setGroupingMode(groupingMode)
         adapter.setGridLayoutManager(gridLayoutManager)
@@ -208,7 +209,7 @@ class GalleryFragment : BaseMediaGridFragment(), ActionsListener {
 
     override fun onItemSelected(position: Int) {
         showToast(context, " click selected item $position")
-        val intent = Intent(context, MediaActivity::class.java)
+        val intent = Intent(context, DetailActivity::class.java)
         val bundle = Bundle()
         bundle.putParcelable(EXTRA_ARGS_ALBUM, albumFolder)
 

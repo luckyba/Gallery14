@@ -1,37 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View"/>
+
+        <variable
+            name="homeModel"
+            type="com.luckyba.myapplication.viewmodel.GalleryViewModel" />
         <variable
             name="observable"
             type="com.luckyba.myapplication.util.ObservableViewModel" />
-        <variable
-            name="editMode"
-            type="Boolean" />
     </data>
 
     <RelativeLayout
-        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/main_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:layout_constraintTop_toTopOf="parent"
             android:background="?attr/colorPrimary"
             android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewpager_media"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_images_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="?attr/actionBarSize"/>
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/main_toolbar"
+            android:layout_alignParentTop="true"
+            android:scrollbars="vertical"
+            android:visibility="@{!observable.isEmpty?View.VISIBLE: View.GONE}"
+            />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/empty"
+            android:textSize="18sp"
+            android:visibility="@{observable.isEmpty?View.VISIBLE: View.GONE}"
+            android:layout_centerInParent="true"
+            android:textStyle="bold" />
     </RelativeLayout>
+
 </layout>

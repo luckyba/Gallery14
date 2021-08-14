@@ -1,4 +1,4 @@
-package com.luckyba.myapplication.ui.media.fragment
+package com.luckyba.myapplication.ui.detail.fragment
 
 import android.content.Intent
 import android.net.Uri
@@ -34,6 +34,15 @@ class VideoFragment : BaseMediaFragment() {
         binding.fragment = this
     }
 
+    override fun onResume() {
+        super.onResume()
+//        (activity as AppCompatActivity).supportActionBar?.hide()
+    }
+
+    override fun onStop() {
+        super.onStop()
+//        (activity as AppCompatActivity).supportActionBar?.show()
+    }
     fun onClickPlay() {
         val uri = Uri.parse(media.path)
         val intent = Intent(Intent.ACTION_VIEW).setDataAndType(uri, media.mimeType)

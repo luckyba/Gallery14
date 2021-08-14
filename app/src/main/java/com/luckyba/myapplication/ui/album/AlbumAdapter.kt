@@ -16,7 +16,7 @@ class AlbumAdapter(private var listData: ArrayList<AlbumFolder>?, private var li
 
     override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
         holder.itemView.setOnClickListener{v -> listener.onClick(v, position)}
-        holder.itemView.setOnLongClickListener{ v -> listener.onLongClick(v, position); false}
+        holder.itemView.setOnLongClickListener{ v -> listener.onLongClick(v, position); true}
 
         holder.binding.albumFolder = listData?.get(position)
 

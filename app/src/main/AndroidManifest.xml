@@ -31,7 +31,12 @@
             android:label="@string/app_name">
         </activity>
 
-        <activity android:name=".ui.media.MediaActivity"/>
+        <activity android:name=".ui.detail.DetailActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+
+        <activity android:name=".ui.media.MediaActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+
     </application>
 
 </manifest>

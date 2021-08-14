@@ -1,4 +1,4 @@
-package com.luckyba.myapplication.ui.home
+package com.luckyba.myapplication.ui.timeline
 
 import android.content.Context
 import android.graphics.Rect
@@ -15,13 +15,12 @@ import com.luckyba.myapplication.data.model.AlbumFile
 import com.luckyba.myapplication.data.sort.SortingOrder
 import com.luckyba.myapplication.databinding.GalleryHeaderItemBinding
 import com.luckyba.myapplication.databinding.GalleryListItemViewBinding
-import com.luckyba.myapplication.ui.timeline.GroupingMode
 import com.luckyba.myapplication.ui.timeline.data.TimelineHeaderModel
 import com.luckyba.myapplication.ui.timeline.data.TimelineItem
 import java.util.*
 import kotlin.collections.ArrayList
 
-class GalleryListAdapter(
+class TimelineAdapter(
     private var listData: ArrayList<AlbumFile>?,
     private val actionsListener: ActionsListener
 ) :

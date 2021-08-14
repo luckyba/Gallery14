@@ -30,6 +30,20 @@ object GalleryBindingUtil {
             .into(view)
     }
 
+    @BindingAdapter("app:fullImage")
+    @JvmStatic fun loadFullImage(view: ImageView, imageUrl: String) {
+        Log.d("view.context.toString()", "loadImage $imageUrl")
+        val options: RequestOptions = RequestOptions()
+            .format(DecodeFormat.PREFER_RGB_565)
+            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+
+        Glide.with(view.context)
+            .load(imageUrl)
+            .thumbnail(0.5f)
+            .apply(options)
+            .into(view)
+    }
+
     @BindingAdapter("app:video")
     @JvmStatic fun loadVideo(view: ImageView, videoUrl: String) {
         val positionInMillis = 0
