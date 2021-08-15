@@ -1,20 +1,28 @@
 package com.luckyba.myapplication.util
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.Parcel
 import android.webkit.MimeTypeMap
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
+import java.io.File
+
 
 class GalleryUtil {
-    val UNKNOWN_MIME_TYPE = "unknown/unknown"
 
     companion object {
+        val UNKNOWN_MIME_TYPE = "unknown/unknown"
+        val ACTION_MOVE = "action_move"
+        val ACTION_COPY = "action_copy"
+        val ACTION_DELETE = "action_delete"
         @JvmStatic
         fun isMaxBundle(bundle: Bundle): Boolean {
 
             return getBundleSizeInBytes(bundle) > 500000
         }
 
-        fun getBundleSizeInBytes(bundle: Bundle) : Int {
+        private fun getBundleSizeInBytes(bundle: Bundle) : Int {
             val parcel = Parcel.obtain()
             parcel.writeValue(bundle)
 

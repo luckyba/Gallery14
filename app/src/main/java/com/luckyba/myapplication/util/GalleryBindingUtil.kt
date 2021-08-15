@@ -5,6 +5,7 @@ import android.view.View
 import android.view.animation.Animation
 import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat
@@ -17,7 +18,7 @@ object GalleryBindingUtil {
 
     @BindingAdapter("app:image")
     @JvmStatic fun loadImage(view: ImageView, imageUrl: String) {
-        Log.d("view.context.toString()", "loadImage $imageUrl")
+//        Log.d("view.context.toString()", "loadImage $imageUrl")
         val options: RequestOptions = RequestOptions()
             .format(DecodeFormat.PREFER_RGB_565)
             .centerCrop()
@@ -32,7 +33,7 @@ object GalleryBindingUtil {
 
     @BindingAdapter("app:fullImage")
     @JvmStatic fun loadFullImage(view: ImageView, imageUrl: String) {
-        Log.d("view.context.toString()", "loadImage $imageUrl")
+//        Log.d("view.context.toString()", "loadImage $imageUrl")
         val options: RequestOptions = RequestOptions()
             .format(DecodeFormat.PREFER_RGB_565)
             .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
@@ -60,6 +61,13 @@ object GalleryBindingUtil {
     @JvmStatic fun setPadding(view: View, array: IntArray) {
         view.setPadding(array[0], array[1], array[2], array[3])
     }
+
+    @BindingAdapter("app:visible")
+    @JvmStatic
+    fun setVisible(view: View, visible: Boolean) = if (visible) {
+        view.visibility = View.VISIBLE
+    } else view.visibility = View.GONE
+
 
     @BindingAdapter("app:animate")
     @JvmStatic fun setAnimate(view: View, array: FloatArray) {

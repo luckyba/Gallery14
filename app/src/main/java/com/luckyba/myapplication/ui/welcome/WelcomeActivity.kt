@@ -11,11 +11,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.luckyba.myapplication.MainActivity
 import com.luckyba.myapplication.R
+import com.luckyba.myapplication.common.BaseActivity
 import com.luckyba.myapplication.databinding.ActivityWelcomeBinding
 import com.luckyba.myapplication.util.PermissionUtils
 import com.luckyba.myapplication.util.StringUtils.showToast
 
-class WelcomeActivity: AppCompatActivity() {
+class WelcomeActivity: BaseActivity("WelcomeActivity") {
     private val EXTERNAL_STORAGE_PERMISSIONS = 12
 
     lateinit var binding: ActivityWelcomeBinding
@@ -46,6 +47,13 @@ class WelcomeActivity: AppCompatActivity() {
                     Manifest.permission.READ_EXTERNAL_STORAGE
                 )
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R && Environment.isExternalStorageManager()) {
+            start()
         }
     }
 

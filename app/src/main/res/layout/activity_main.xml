@@ -10,12 +10,25 @@
         <variable
             name="editMode"
             type="Boolean" />
+        <variable
+            name="animate"
+            type="android.view.animation.Animation" />
     </data>
 
     <RelativeLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
+        <ProgressBar
+            android:id="@+id/progress_circular"
+            android:layout_width="@dimen/album_dp_30"
+            android:layout_height="@dimen/album_dp_30"
+            android:layout_centerInParent="true"
+            app:setAnimate="@{animate}"
+            android:visibility="gone"
+            />
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/main_toolbar"

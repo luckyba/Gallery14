@@ -59,16 +59,17 @@ class FileRepository(val context: Context):RepositoryInterface {
                     val src1 = File(deleteFile, files[i]).path
                     deleteFileOrDirectory(src1)
                 }
-                deleteFile.delete()
 
             } else {
                 deleteFile.delete()
-            }
-            context.contentResolver.delete(
-                external, MediaStore.MediaColumns.DATA + "=?", arrayOf(
-                    deleteFile.path
+                context.contentResolver.delete(
+                    external, MediaStore.MediaColumns.DATA + "=?", arrayOf(
+                        deleteFile.path
+                    )
                 )
-            )
+                scanFile(context, arrayOf(deleteFile.absolutePath))
+            }
+
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -80,10 +81,12 @@ class FileRepository(val context: Context):RepositoryInterface {
 
     override fun moveFileToAlbum(listPath: MutableSet<String>, outPath: String): Boolean {
         return try {
+
             for(i in 0 until listPath.size) {
                 copyFileOrDirectory(listPath.elementAt(i), outPath)
                 deleteFileOrDirectory(listPath.elementAt(i))
             }
+
             true
         } catch (e: Exception) {
             e.printStackTrace()
@@ -147,6 +150,7 @@ class FileRepository(val context: Context):RepositoryInterface {
         } finally {
             source?.close()
             destination?.close()
+            scanFile(context, arrayOf(destFile.path))
         }
     }
 
@@ -170,7 +174,10 @@ class FileRepository(val context: Context):RepositoryInterface {
         }
     }
 
-    fun scanFile(context: Context, path: Array<String?>?) {
+    /**
+     * this method to notice content provider
+     */
+    private fun scanFile(context: Context, path: Array<String>) {
         MediaScannerConnection.scanFile(context.applicationContext, path, null, null)
     }
 }

@@ -17,6 +17,7 @@ import com.luckyba.myapplication.databinding.GalleryHeaderItemBinding
 import com.luckyba.myapplication.databinding.GalleryListItemViewBinding
 import com.luckyba.myapplication.ui.timeline.data.TimelineHeaderModel
 import com.luckyba.myapplication.ui.timeline.data.TimelineItem
+import com.luckyba.myapplication.util.MediaType
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -73,6 +74,7 @@ class TimelineAdapter(
             val galleryViewHolder = holder as GalleryViewHolder
             val albumFile = timelineItem as AlbumFile
             galleryViewHolder.binding.mediafile = albumFile
+
 //            Log.d("GalleryListAdapter", "loadImage " + albumFile?.dataToString())
             if (albumFile.isChecked) {
                 holder.binding.paddingValue = intArrayOf(15, 15, 15, 15)

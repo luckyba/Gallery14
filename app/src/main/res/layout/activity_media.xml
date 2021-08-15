@@ -11,6 +11,10 @@
         <variable
             name="observable"
             type="com.luckyba.myapplication.util.ObservableViewModel" />
+
+        <variable
+            name="animate"
+            type="android.view.animation.Animation" />
     </data>
 
     <RelativeLayout
@@ -27,6 +31,15 @@
             android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+        <ProgressBar
+            android:id="@+id/progress_circular"
+            android:layout_width="@dimen/album_dp_30"
+            android:layout_height="@dimen/album_dp_30"
+            android:layout_centerInParent="true"
+            app:setAnimate="@{animate}"
+            android:visibility="gone"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_images_list"

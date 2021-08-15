@@ -145,6 +145,10 @@ class GalleryFragment : BaseMediaGridFragment(), ActionsListener {
         }
 
         return when (item.itemId) {
+            R.id.timeline_share -> {
+                showToast(context, getString(R.string.comming_soon))
+                false
+            }
 
             R.id.timeline_menu_delete -> {
                 showToast(context, "Delete")
@@ -208,7 +212,7 @@ class GalleryFragment : BaseMediaGridFragment(), ActionsListener {
     }
 
     override fun onItemSelected(position: Int) {
-        showToast(context, " click selected item $position")
+//        showToast(context, " click selected item $position")
         val intent = Intent(context, DetailActivity::class.java)
         val bundle = Bundle()
         bundle.putParcelable(EXTRA_ARGS_ALBUM, albumFolder)
@@ -219,7 +223,7 @@ class GalleryFragment : BaseMediaGridFragment(), ActionsListener {
             intent.putExtra(StringUtils.EXTRA_ARGS_POSITION, position)
             requireActivity().startActivity(intent)
         } else {
-            intent.action = StringUtils.ACTION_OPEN_ALBUM_LAYZY
+            intent.action = StringUtils.ACTION_OPEN_ALBUM_LAZY
             intent.putExtra(EXTRA_ARGS_MEDIA, albumFolder.albumFiles[position])
             requireActivity().startActivity(intent)
         }

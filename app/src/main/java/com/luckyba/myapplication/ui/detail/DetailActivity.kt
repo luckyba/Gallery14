@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.luckyba.myapplication.R
+import com.luckyba.myapplication.common.BaseActivity
 import com.luckyba.myapplication.data.model.AlbumFile
 import com.luckyba.myapplication.data.model.AlbumFolder
 import com.luckyba.myapplication.databinding.ActivityDetailBinding
@@ -18,7 +19,7 @@ import com.luckyba.myapplication.util.StringUtils.EXTRA_ARGS_POSITION
 import com.luckyba.myapplication.viewmodel.GalleryViewModel
 
 
-class DetailActivity: AppCompatActivity() {
+class DetailActivity: BaseActivity("DetailActivity") {
     lateinit var viewModel: GalleryViewModel
     lateinit var binding: ActivityDetailBinding
     lateinit var adapter: DetailPagerAdapter

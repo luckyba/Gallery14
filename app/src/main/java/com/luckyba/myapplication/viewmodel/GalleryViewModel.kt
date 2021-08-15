@@ -33,10 +33,7 @@ class GalleryViewModel : ViewModel() {
     }
 
     private fun onComplete(result: Any?) {
-        if (result as Boolean) {
-            getAll()
-            _dataChange.value = true
-        } else _dataChange.value = false
+        _dataChange.value = result as Boolean
     }
 
     fun deleteListFile(listPath: MutableSet<String>) =

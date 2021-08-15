@@ -8,18 +8,16 @@ import android.widget.Toast
 import java.util.*
 import java.util.regex.Pattern
 
-/**
- * Created by dnld on 1/3/16.
- */
 object StringUtils {
-    val ACTION_OPEN_ALBUM = "com.luckyba.myapplication.intent.VIEW_ALBUM"
-    val ACTION_OPEN_ALBUM_LAYZY = "com.luckyba.myapplication.intent.VIEW_ALBUM_LAZY"
-    val ACTION_REVIEW = "com.android.camera.action.REVIEW"
+    const val ACTION_OPEN_ALBUM = "com.luckyba.myapplication.intent.VIEW_ALBUM"
+    const val ACTION_OPEN_ALBUM_LAZY = "com.luckyba.myapplication.intent.VIEW_ALBUM_LAZY"
+    const val ACTION_REVIEW = "com.android.camera.action.REVIEW"
 
-    val EXTRA_ARGS_ALBUM = "args_album"
-    val EXTRA_ARGS_MEDIA = "args_media"
-    val EXTRA_ARGS_POSITION = "args_position"
-    val EXTRA_ARGS_AlBUM_TITLE = "args_title"
+    const val EXTRA_ARGS_LIST_ALBUM = "args_list_album"
+    const val EXTRA_ARGS_ALBUM = "args_album"
+    const val EXTRA_ARGS_MEDIA = "args_media"
+    const val EXTRA_ARGS_POSITION = "args_position"
+    const val EXTRA_ARGS_AlBUM_TITLE = "args_title"
 
     fun getPhotoNameByPath(path: String): String {
         val b = path.split("/".toRegex()).toTypedArray()

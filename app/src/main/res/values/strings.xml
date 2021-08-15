@@ -54,4 +54,8 @@
     <string name="welcome_to_gallery_14">Welcome to Gallery 14!</string>
     <string name="go_settings_to_grant_manage_storage_permission">Go settings to grant manage storage permission</string>
     <string name="description_zoom_touch_close">Zoom</string>
+    <string name="move">Move</string>
+    <string name="copy">Copy</string>
+    <string name="share_via">Share via</string>
+    <string name="comming_soon">Comming soon</string>
 </resources>
