@@ -4,7 +4,7 @@
 * Kotlin + MVVM + Databinding
 ## Feature
 * Load gallery from Media provider
-* Display full and album
+* Display full media and album
 * Some basic features such as delete, move, copy, filter, grouping
 * Modify list item (time line date)
 
