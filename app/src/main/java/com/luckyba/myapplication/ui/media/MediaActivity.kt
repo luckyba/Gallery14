@@ -56,8 +56,9 @@ class MediaActivity : BaseActivity("MediaActivity"), ActionsListener, EditModeLi
     private lateinit var gridLayoutManager: GridLayoutManager
     private lateinit var dialog: FolderDialog
 
-    lateinit var albumFiles: ArrayList<AlbumFile>
+    private var albumFiles: ArrayList<AlbumFile> = ArrayList()
     lateinit var albumFolder: ArrayList<AlbumFolder>
+    var firstLoadAlbum = false
     var menuAction: String? = null
     var position: Int = 0
     var title: String? = null
@@ -87,11 +88,11 @@ class MediaActivity : BaseActivity("MediaActivity"), ActionsListener, EditModeLi
     }
 
     private fun loadAlbumFile() {
-        albumFolder = intent.getParcelableArrayListExtra<AlbumFolder>(StringUtils.EXTRA_ARGS_LIST_ALBUM) as ArrayList<AlbumFolder>
-        albumFiles = albumFolder[position].albumFiles
+        albumFiles = intent.getParcelableExtra<AlbumFolder>(StringUtils.EXTRA_ARGS_ALBUM)!!.albumFiles
     }
 
     private fun loadLazyAlbumFile () {
+
         binding.progressCircular.isVisible = true
         GlobalScope.launch(Dispatchers.Main) {
             viewModel.getAllData()// back on UI thread
@@ -119,7 +120,11 @@ class MediaActivity : BaseActivity("MediaActivity"), ActionsListener, EditModeLi
                     SortingOrder.DESCENDING
                 )
             )
-            adapter.setData(albumFiles)
+            if (!firstLoadAlbum) {
+                adapter.setData(albumFiles)
+            } else {
+                firstLoadAlbum = false
+            }
             binding.observable!!.isEmpty.set(albumFiles.size == 0)
             StringUtils.showToast(this, "Data ${albumFiles.size}")
         })
@@ -168,6 +173,10 @@ class MediaActivity : BaseActivity("MediaActivity"), ActionsListener, EditModeLi
 
         if (intent.action == StringUtils.ACTION_OPEN_ALBUM) {
             adapter.setData(albumFiles)
+            firstLoadAlbum = true
+            GlobalScope.launch(Dispatchers.Main) {
+                viewModel.getAllData()
+            }
         }
     }
 
@@ -212,7 +221,6 @@ class MediaActivity : BaseActivity("MediaActivity"), ActionsListener, EditModeLi
             }
 
             R.id.timeline_menu_delete -> {
-                binding.progressCircular.isVisible = true
                 menuAction = GalleryUtil.ACTION_DELETE
                 StringUtils.showToast(this, "Delete")
                 if (adapter.getSelectedCount() == 0) {
@@ -221,6 +229,7 @@ class MediaActivity : BaseActivity("MediaActivity"), ActionsListener, EditModeLi
                         getString(R.string.no_item_selected_cant_delete)
                     ); false
                 } else {
+                    binding.progressCircular.isVisible = true
                     GlobalScope.launch(Dispatchers.Main) {
                         viewModel.deleteListFile(adapter.getPathSelectedItem())
                     }
@@ -249,7 +258,6 @@ class MediaActivity : BaseActivity("MediaActivity"), ActionsListener, EditModeLi
             }
 
             R.id.timeline_menu_copy -> {
-                binding.progressCircular.isVisible = true
                 StringUtils.showToast(this, "Copy ")
                 menuAction = GalleryUtil.ACTION_COPY
                 if (getSelectedCount() > 0) {
@@ -262,7 +270,6 @@ class MediaActivity : BaseActivity("MediaActivity"), ActionsListener, EditModeLi
             }
 
             R.id.timeline_menu_move -> {
-                binding.progressCircular.isVisible = true
                 menuAction = GalleryUtil.ACTION_MOVE
                 StringUtils.showToast(this, "Copy ")
                 if (getSelectedCount() > 0) {
@@ -283,6 +290,8 @@ class MediaActivity : BaseActivity("MediaActivity"), ActionsListener, EditModeLi
     override fun onClick(view: View, pos: Int) {
         StringUtils.showToast(this, "onClick album pos $pos")
         dialog.dismiss()
+        binding.progressCircular.isVisible = true
+
         when(menuAction) {
             GalleryUtil.ACTION_COPY -> {
                 GlobalScope.launch(Dispatchers.Main) {

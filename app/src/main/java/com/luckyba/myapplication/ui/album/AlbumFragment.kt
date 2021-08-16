@@ -76,17 +76,16 @@ class AlbumFragment : Fragment(), Listener {
         showToast(context, "onClick pos $position")
         val intent = Intent(context, MediaActivity::class.java)
         val bundle = Bundle()
-        bundle.putParcelableArrayList(StringUtils.EXTRA_ARGS_ALBUM, albumFolder)
+        bundle.putParcelable(StringUtils.EXTRA_ARGS_ALBUM, albumFolder[position])
 
         if(!GalleryUtil.isMaxBundle(bundle)) {
             intent.action = StringUtils.ACTION_OPEN_ALBUM
-            intent.putExtra(StringUtils.EXTRA_ARGS_LIST_ALBUM, albumFolder)
+            intent.putExtra(StringUtils.EXTRA_ARGS_ALBUM, albumFolder[position])
             intent.putExtra(StringUtils.EXTRA_ARGS_POSITION, position)
             intent.putExtra(StringUtils.EXTRA_ARGS_AlBUM_TITLE, albumFolder[position].name)
             requireActivity().startActivity(intent)
         } else {
             intent.action = StringUtils.ACTION_OPEN_ALBUM_LAZY
-            intent.putExtra(StringUtils.EXTRA_ARGS_MEDIA, albumFolder[position].albumFiles[0])
             intent.putExtra(StringUtils.EXTRA_ARGS_POSITION, position)
             intent.putExtra(StringUtils.EXTRA_ARGS_AlBUM_TITLE, albumFolder[position].name)
             requireActivity().startActivity(intent)
