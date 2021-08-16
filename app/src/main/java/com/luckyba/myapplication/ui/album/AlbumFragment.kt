@@ -15,6 +15,7 @@ import com.google.android.material.internal.ViewUtils
 import com.luckyba.myapplication.common.GridSpacingItemDecoration
 import com.luckyba.myapplication.common.Listener
 import com.luckyba.myapplication.data.model.AlbumFolder
+import com.luckyba.myapplication.data.model.DataHolder
 import com.luckyba.myapplication.databinding.FragmentAlbumBinding
 import com.luckyba.myapplication.ui.media.MediaActivity
 import com.luckyba.myapplication.util.GalleryUtil
@@ -74,23 +75,14 @@ class AlbumFragment : Fragment(), Listener {
 
     override fun onClick(view: View, position: Int) {
         showToast(context, "onClick pos $position")
-        val intent = Intent(context, MediaActivity::class.java)
-        val bundle = Bundle()
-        bundle.putParcelableArrayList(StringUtils.EXTRA_ARGS_ALBUM, albumFolder)
 
-        if(!GalleryUtil.isMaxBundle(bundle)) {
-            intent.action = StringUtils.ACTION_OPEN_ALBUM
-            intent.putExtra(StringUtils.EXTRA_ARGS_LIST_ALBUM, albumFolder)
-            intent.putExtra(StringUtils.EXTRA_ARGS_POSITION, position)
-            intent.putExtra(StringUtils.EXTRA_ARGS_AlBUM_TITLE, albumFolder[position].name)
-            requireActivity().startActivity(intent)
-        } else {
-            intent.action = StringUtils.ACTION_OPEN_ALBUM_LAZY
-            intent.putExtra(StringUtils.EXTRA_ARGS_MEDIA, albumFolder[position].albumFiles[0])
-            intent.putExtra(StringUtils.EXTRA_ARGS_POSITION, position)
-            intent.putExtra(StringUtils.EXTRA_ARGS_AlBUM_TITLE, albumFolder[position].name)
-            requireActivity().startActivity(intent)
-        }
+        /**
+         * using singletons object to save data
+         */
+        DataHolder.listData = albumFolder
+        val intent = Intent(context, MediaActivity::class.java)
+        intent.putExtra(StringUtils.EXTRA_ARGS_POSITION, position)
+        requireActivity().startActivity(intent)
     }
 
     override fun onLongClick(view: View, pos: Int) {

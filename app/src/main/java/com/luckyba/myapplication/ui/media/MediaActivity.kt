@@ -29,6 +29,7 @@ import com.luckyba.myapplication.common.EditModeListener
 import com.luckyba.myapplication.common.Listener
 import com.luckyba.myapplication.data.model.AlbumFile
 import com.luckyba.myapplication.data.model.AlbumFolder
+import com.luckyba.myapplication.data.model.DataHolder
 import com.luckyba.myapplication.data.sort.MediaComparators
 import com.luckyba.myapplication.data.sort.SortingMode
 import com.luckyba.myapplication.data.sort.SortingOrder
@@ -69,34 +70,18 @@ class MediaActivity : BaseActivity("MediaActivity"), ActionsListener, EditModeLi
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_media)
         viewModel = ViewModelProvider(this).get(GalleryViewModel::class.java)
-        loadData()
+//        loadData()
 
         binding.observable = ObservableViewModel()
         recycleView = binding.recyclerViewImagesList
         binding.animate = AnimationUtils.loadAnimation(this, R.anim.roate)
 
+        position = intent.getIntExtra(StringUtils.EXTRA_ARGS_POSITION, 0)
+        albumFolder = DataHolder.listData
+        albumFiles = albumFolder[position].albumFiles
+
         initView()
 
-    }
-
-    private fun loadData() {
-        position = intent.getIntExtra(StringUtils.EXTRA_ARGS_POSITION, 0)
-        title = intent.getStringExtra(StringUtils.EXTRA_ARGS_AlBUM_TITLE)
-        if (intent.action == StringUtils.ACTION_OPEN_ALBUM) loadAlbumFile()
-        else loadLazyAlbumFile()
-    }
-
-    private fun loadAlbumFile() {
-        albumFolder = intent.getParcelableArrayListExtra<AlbumFolder>(StringUtils.EXTRA_ARGS_LIST_ALBUM) as ArrayList<AlbumFolder>
-        albumFiles = albumFolder[position].albumFiles
-    }
-
-    private fun loadLazyAlbumFile () {
-        binding.progressCircular.isVisible = true
-        GlobalScope.launch(Dispatchers.Main) {
-            viewModel.getAllData()// back on UI thread
-        }
-//        viewModel.getAll()
     }
 
     private val timelineGridSize: Int
@@ -165,10 +150,8 @@ class MediaActivity : BaseActivity("MediaActivity"), ActionsListener, EditModeLi
         // multi item should keep false
 //        adapter.setHasStableIds(true)
         recycleView.adapter = adapter
+        adapter.setData(albumFiles)
 
-        if (intent.action == StringUtils.ACTION_OPEN_ALBUM) {
-            adapter.setData(albumFiles)
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -249,7 +232,6 @@ class MediaActivity : BaseActivity("MediaActivity"), ActionsListener, EditModeLi
             }
 
             R.id.timeline_menu_copy -> {
-                binding.progressCircular.isVisible = true
                 StringUtils.showToast(this, "Copy ")
                 menuAction = GalleryUtil.ACTION_COPY
                 if (getSelectedCount() > 0) {
@@ -262,7 +244,6 @@ class MediaActivity : BaseActivity("MediaActivity"), ActionsListener, EditModeLi
             }
 
             R.id.timeline_menu_move -> {
-                binding.progressCircular.isVisible = true
                 menuAction = GalleryUtil.ACTION_MOVE
                 StringUtils.showToast(this, "Copy ")
                 if (getSelectedCount() > 0) {
@@ -283,6 +264,7 @@ class MediaActivity : BaseActivity("MediaActivity"), ActionsListener, EditModeLi
     override fun onClick(view: View, pos: Int) {
         StringUtils.showToast(this, "onClick album pos $pos")
         dialog.dismiss()
+        binding.progressCircular.isVisible = true
         when(menuAction) {
             GalleryUtil.ACTION_COPY -> {
                 GlobalScope.launch(Dispatchers.Main) {

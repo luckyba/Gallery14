@@ -4,6 +4,7 @@ package com.luckyba.myapplication.data.provider;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.MediaStore;
 
 import androidx.annotation.WorkerThread;
@@ -266,6 +267,12 @@ public class MediaReader {
             albumFolders.add(albumFolder);
         }
         return albumFolders;
+    }
+
+    public AlbumFolder getAlbum (String path) {
+        AlbumFolder albumFolder = new AlbumFolder();
+        Uri uri = Uri.parse(path);
+        return albumFolder;
     }
 
 }
