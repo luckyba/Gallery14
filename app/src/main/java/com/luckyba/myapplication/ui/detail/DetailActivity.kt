@@ -17,6 +17,9 @@ import com.luckyba.myapplication.util.StringUtils.EXTRA_ARGS_ALBUM
 import com.luckyba.myapplication.util.StringUtils.EXTRA_ARGS_MEDIA
 import com.luckyba.myapplication.util.StringUtils.EXTRA_ARGS_POSITION
 import com.luckyba.myapplication.viewmodel.GalleryViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class DetailActivity: BaseActivity("DetailActivity") {
@@ -47,7 +50,10 @@ class DetailActivity: BaseActivity("DetailActivity") {
     }
 
     private fun loadLazyAlbumFile () {
-        viewModel.getAll()
+        GlobalScope.launch(Dispatchers.Main) {
+            viewModel.getAllData()// back on UI thread
+        }
+//        viewModel.getAll()
         viewModel.listData.observe(this, {
             albumFiles = it[0].albumFiles
             Log.d("fdsafas", " album Size ${albumFiles.size} ")

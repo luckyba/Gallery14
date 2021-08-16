@@ -33,6 +33,9 @@ import com.luckyba.myapplication.util.StringUtils.EXTRA_ARGS_ALBUM
 import com.luckyba.myapplication.util.StringUtils.EXTRA_ARGS_MEDIA
 import com.luckyba.myapplication.util.StringUtils.showToast
 import com.luckyba.myapplication.viewmodel.GalleryViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -155,7 +158,10 @@ class GalleryFragment : BaseMediaGridFragment(), ActionsListener {
                 if (adapter.getSelectedCount() == 0) {
                     showToast(context, getString(R.string.no_item_selected_cant_delete)); false
                 } else {
-                    binding.homeModel!!.deleteListFile(adapter.getPathSelectedItem());
+                    GlobalScope.launch(Dispatchers.Main) {
+                        binding.homeModel!!.deleteListFile(adapter.getPathSelectedItem());
+                    }
+//                    binding.homeModel!!.deleteListFile(adapter.getPathSelectedItem());
                     true
                 }
             }

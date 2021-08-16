@@ -22,6 +22,9 @@ import com.luckyba.myapplication.data.model.DataObserver.SCAN_DATA_CALLBACK
 import com.luckyba.myapplication.databinding.ActivityMainBinding
 import com.luckyba.myapplication.util.StringUtils
 import com.luckyba.myapplication.viewmodel.GalleryViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MainActivity : BaseActivity("MainActivity"), EditModeListener {
 
@@ -55,7 +58,10 @@ class MainActivity : BaseActivity("MainActivity"), EditModeListener {
 
         binding.progressCircular.isVisible = true
         binding.animate = AnimationUtils.loadAnimation(this, R.anim.roate)
-        viewModel.getAll()
+
+        GlobalScope.launch(Dispatchers.Main) {
+            viewModel.getAllData()// back on UI thread
+        }
 
         viewModel.listData.observe(this, {
             binding.progressCircular.isVisible = false
@@ -79,7 +85,10 @@ class MainActivity : BaseActivity("MainActivity"), EditModeListener {
     private val mHandler = Handler(Looper.getMainLooper()) { msg: Message ->
         if (msg.what == SCAN_DATA_CALLBACK) {
             Toast.makeText(this, " " + msg.obj.toString(), Toast.LENGTH_SHORT).show()
-            viewModel.getAll()
+            GlobalScope.launch(Dispatchers.Main) {
+                viewModel.getAllData()// back on UI thread
+            }
+//            viewModel.getAll()
         }
         true
     }

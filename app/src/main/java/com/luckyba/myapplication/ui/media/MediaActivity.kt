@@ -39,6 +39,9 @@ import com.luckyba.myapplication.ui.timeline.GroupingMode
 import com.luckyba.myapplication.ui.timeline.TimelineAdapter
 import com.luckyba.myapplication.util.*
 import com.luckyba.myapplication.viewmodel.GalleryViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.util.*
 import kotlin.collections.ArrayList
@@ -90,7 +93,10 @@ class MediaActivity : BaseActivity("MediaActivity"), ActionsListener, EditModeLi
 
     private fun loadLazyAlbumFile () {
         binding.progressCircular.isVisible = true
-        viewModel.getAll()
+        GlobalScope.launch(Dispatchers.Main) {
+            viewModel.getAllData()// back on UI thread
+        }
+//        viewModel.getAll()
     }
 
     private val timelineGridSize: Int
@@ -130,7 +136,10 @@ class MediaActivity : BaseActivity("MediaActivity"), ActionsListener, EditModeLi
                     return
                 }
             }
-            viewModel.getAll()
+            GlobalScope.launch(Dispatchers.Main) {
+                viewModel.getAllData()// back on UI thread
+            }
+//            viewModel.getAll()
             exitContextMenu()
 
         }
@@ -212,7 +221,10 @@ class MediaActivity : BaseActivity("MediaActivity"), ActionsListener, EditModeLi
                         getString(R.string.no_item_selected_cant_delete)
                     ); false
                 } else {
-                    viewModel.deleteListFile(adapter.getPathSelectedItem());
+                    GlobalScope.launch(Dispatchers.Main) {
+                        viewModel.deleteListFile(adapter.getPathSelectedItem())
+                    }
+//                    viewModel.deleteListFile(adapter.getPathSelectedItem())
                     true
                 }
             }
@@ -273,20 +285,36 @@ class MediaActivity : BaseActivity("MediaActivity"), ActionsListener, EditModeLi
         dialog.dismiss()
         when(menuAction) {
             GalleryUtil.ACTION_COPY -> {
-                albumFolder[pos].albumFiles[0].path?.let {
-                    viewModel.copyFile(
-                        adapter.getPathSelectedItem(),
-                        StringUtils.getBucketPathByImagePath(it)
-                    )
+                GlobalScope.launch(Dispatchers.Main) {
+                    albumFolder[pos].albumFiles[0].path?.let {
+                        viewModel.copyFile(
+                            adapter.getPathSelectedItem(),
+                            StringUtils.getBucketPathByImagePath(it)
+                        )
+                    }
                 }
+//                albumFolder[pos].albumFiles[0].path?.let {
+//                    viewModel.copyFile(
+//                        adapter.getPathSelectedItem(),
+//                        StringUtils.getBucketPathByImagePath(it)
+//                    )
+//                }
             }
             GalleryUtil.ACTION_MOVE -> {
-                albumFolder[pos].albumFiles[0].path?.let {
-                    viewModel.moveFile(
-                        adapter.getPathSelectedItem(),
-                        StringUtils.getBucketPathByImagePath(it)
-                    )
+                GlobalScope.launch(Dispatchers.Main) {
+                    albumFolder[pos].albumFiles[0].path?.let {
+                        viewModel.moveFile(
+                            adapter.getPathSelectedItem(),
+                            StringUtils.getBucketPathByImagePath(it)
+                        )
+                    }
                 }
+//                albumFolder[pos].albumFiles[0].path?.let {
+//                    viewModel.moveFile(
+//                        adapter.getPathSelectedItem(),
+//                        StringUtils.getBucketPathByImagePath(it)
+//                    )
+//                }
             }
         }
     }

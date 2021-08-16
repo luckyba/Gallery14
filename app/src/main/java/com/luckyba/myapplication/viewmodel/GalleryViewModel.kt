@@ -1,5 +1,6 @@
 package com.luckyba.myapplication.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,10 +10,13 @@ import com.luckyba.myapplication.data.model.AlbumFolder
 import com.luckyba.myapplication.data.model.TaskRunner
 import com.luckyba.myapplication.util.FilterMode
 import com.luckyba.myapplication.util.MediaType
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class GalleryViewModel : ViewModel() {
 
     private val task: TaskRunner = TaskRunner(GalleryApplication.getRepository())
+    private val repository = GalleryApplication.getRepository()
 
     private var _listData = MutableLiveData<ArrayList<AlbumFolder>>()
 
@@ -22,31 +26,61 @@ class GalleryViewModel : ViewModel() {
 
     var listData: LiveData<ArrayList<AlbumFolder>> = _listData
 
-    fun getAll() {
-        task.executeAsync(
-            TaskRunner.LoadAllMedia(), ::onLoadComplete
-        )
+    suspend fun getAllData() {
+        _listData.value = withContext(Dispatchers.IO) {
+            Log.d("fdsafas", "Thread "+ Thread.currentThread().name)
+            repository.getAlbums()
+        } as ArrayList<AlbumFolder>
     }
 
-    private fun onLoadComplete(result: Any?) {
-        _listData.value = result as ArrayList<AlbumFolder>
+    suspend fun deleteListFile(listPath: MutableSet<String>) {
+        _dataChange.value = withContext(Dispatchers.IO) {
+            repository.deleteListFile(listPath)
+        } as Boolean
     }
 
-    private fun onComplete(result: Any?) {
-        _dataChange.value = result as Boolean
+    suspend fun moveFile(listPath: MutableSet<String>, outPath: String) {
+        _dataChange.value = withContext(Dispatchers.IO) {
+            repository.moveFileToAlbum(listPath, outPath)
+        } as Boolean
     }
 
-    fun deleteListFile(listPath: MutableSet<String>) =
-        task.executeAsync(TaskRunner.DeleteListFile(listPath), ::onComplete)
+    suspend fun copyFile(listPath: MutableSet<String>, outPath: String) {
+        _dataChange.value = withContext(Dispatchers.IO) {
+            repository.copyFile(listPath, outPath)
+        } as Boolean
+    }
 
-    fun moveFile(listPath: MutableSet<String>, outPath: String) =
-        task.executeAsync(TaskRunner.MoveFile(listPath, outPath), ::onComplete)
+    suspend fun renameFile(path: String, oldName: String, newName: String) {
+        _dataChange.value = withContext(Dispatchers.IO) {
+            repository.reName(path, oldName, newName)
+        } as Boolean
+    }
 
-    fun copyFile(listPath: MutableSet<String>, outPath: String) =
-        task.executeAsync(TaskRunner.CopyFile(listPath, outPath), ::onComplete)
-
-    fun renameFile(path: String, oldName: String, newName: String) =
-        task.executeAsync(TaskRunner.ReNameFile(path, oldName,  newName), ::onComplete)
+    //    fun getAll() {
+//        task.executeAsync(
+//            TaskRunner.LoadAllMedia(), ::onLoadComplete
+//        )
+//    }
+//    private fun onLoadComplete(result: Any?) {
+//        _listData.value = result as ArrayList<AlbumFolder>
+//    }
+//
+//    private fun onComplete(result: Any?) {
+//        _dataChange.value = result as Boolean
+//    }
+//
+//    fun deleteListFile(listPath: MutableSet<String>) =
+//        task.executeAsync(TaskRunner.DeleteListFile(listPath), ::onComplete)
+//
+//    fun moveFile(listPath: MutableSet<String>, outPath: String) =
+//        task.executeAsync(TaskRunner.MoveFile(listPath, outPath), ::onComplete)
+//
+//    fun copyFile(listPath: MutableSet<String>, outPath: String) =
+//        task.executeAsync(TaskRunner.CopyFile(listPath, outPath), ::onComplete)
+//
+//    fun renameFile(path: String, oldName: String, newName: String) =
+//        task.executeAsync(TaskRunner.ReNameFile(path, oldName,  newName), ::onComplete)
 
     fun getDataFilterBy(filterMode: FilterMode): ArrayList<AlbumFile> {
         return when (filterMode) {
