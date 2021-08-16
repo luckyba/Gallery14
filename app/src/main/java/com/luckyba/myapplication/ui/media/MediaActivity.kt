@@ -97,6 +97,7 @@ class MediaActivity : BaseActivity("MediaActivity"), ActionsListener, EditModeLi
         viewModel.listData.observe(this, {
             binding.progressCircular.isVisible = false
             albumFolder = it
+            DataHolder.albums = it
             val albumFiles = it[position].albumFiles
             Collections.sort(
                 albumFiles, MediaComparators.getComparator(

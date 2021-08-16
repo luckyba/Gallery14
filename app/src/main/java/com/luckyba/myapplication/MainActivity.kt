@@ -17,6 +17,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.luckyba.myapplication.app.GalleryApplication
 import com.luckyba.myapplication.common.BaseActivity
 import com.luckyba.myapplication.common.EditModeListener
+import com.luckyba.myapplication.data.model.DataHolder
 import com.luckyba.myapplication.data.model.DataObserver
 import com.luckyba.myapplication.data.model.DataObserver.SCAN_DATA_CALLBACK
 import com.luckyba.myapplication.databinding.ActivityMainBinding
@@ -31,7 +32,6 @@ class MainActivity : BaseActivity("MainActivity"), EditModeListener {
     lateinit var viewModel: GalleryViewModel
     lateinit var binding: ActivityMainBinding
     lateinit var observer: DataObserver
-    lateinit var contentResolve: ContentResolver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +48,6 @@ class MainActivity : BaseActivity("MainActivity"), EditModeListener {
             )
         )
 
-        contentResolve = GalleryApplication.getInstance()
-            .contentResolver
         observer = DataObserver(mHandler)
         listenDataChange()
 
@@ -69,16 +67,18 @@ class MainActivity : BaseActivity("MainActivity"), EditModeListener {
 
     }
 
+
+
     private fun listenDataChange() {
 
-        contentResolve.registerContentObserver(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, true,
-            DataObserver(mHandler)
+        contentResolver.registerContentObserver(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, false,
+            observer
         )
-        contentResolve
+        contentResolver
             .registerContentObserver(
-                MediaStore.Video.Media.EXTERNAL_CONTENT_URI, true,
-                DataObserver(mHandler)
+                MediaStore.Video.Media.EXTERNAL_CONTENT_URI, false,
+                observer
             )
     }
 
@@ -93,9 +93,23 @@ class MainActivity : BaseActivity("MainActivity"), EditModeListener {
         true
     }
 
+    override fun onStop() {
+        contentResolver.unregisterContentObserver(observer)
+
+        super.onStop()
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (DataHolder.albums.size > 0)
+        viewModel.setData(DataHolder.albums)
+
+    }
+
+
     override fun onDestroy() {
         super.onDestroy()
-        contentResolve.unregisterContentObserver(observer)
         StringUtils.showToast(this, " MainActivity onDestroy")
     }
 

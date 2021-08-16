@@ -26,6 +26,10 @@ class GalleryViewModel : ViewModel() {
 
     var listData: LiveData<ArrayList<AlbumFolder>> = _listData
 
+     fun setData(albums: ArrayList<AlbumFolder>) {
+        _listData.value = albums
+    }
+
     suspend fun getAllData() {
         _listData.value = withContext(Dispatchers.IO) {
             Log.d("fdsafas", "Thread "+ Thread.currentThread().name)
