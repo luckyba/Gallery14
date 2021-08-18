@@ -1,12 +1,13 @@
 package com.luckyba.myapplication
 
-import android.content.ContentResolver
-import android.os.*
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.provider.MediaStore
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -14,7 +15,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.luckyba.myapplication.app.GalleryApplication
 import com.luckyba.myapplication.common.BaseActivity
 import com.luckyba.myapplication.common.EditModeListener
 import com.luckyba.myapplication.data.model.DataHolder
@@ -88,28 +88,14 @@ class MainActivity : BaseActivity("MainActivity"), EditModeListener {
             GlobalScope.launch(Dispatchers.Main) {
                 viewModel.getAllData()// back on UI thread
             }
-//            viewModel.getAll()
         }
         true
     }
 
-    override fun onStop() {
-        contentResolver.unregisterContentObserver(observer)
-
-        super.onStop()
-
-    }
-
-    override fun onStart() {
-        super.onStart()
-        if (DataHolder.albums.size > 0)
-        viewModel.setData(DataHolder.albums)
-
-    }
-
-
     override fun onDestroy() {
         super.onDestroy()
+        contentResolver.unregisterContentObserver(observer)
+        DataHolder.albums.clear()
         StringUtils.showToast(this, " MainActivity onDestroy")
     }
 

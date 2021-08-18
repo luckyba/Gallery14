@@ -17,7 +17,6 @@ import com.luckyba.myapplication.databinding.GalleryHeaderItemBinding
 import com.luckyba.myapplication.databinding.GalleryListItemViewBinding
 import com.luckyba.myapplication.ui.timeline.data.TimelineHeaderModel
 import com.luckyba.myapplication.ui.timeline.data.TimelineItem
-import com.luckyba.myapplication.util.MediaType
 import java.util.*
 import kotlin.collections.ArrayList
 

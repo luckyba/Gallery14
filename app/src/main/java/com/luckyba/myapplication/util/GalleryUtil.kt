@@ -1,12 +1,8 @@
 package com.luckyba.myapplication.util
 
-import android.content.Intent
 import android.os.Bundle
 import android.os.Parcel
 import android.webkit.MimeTypeMap
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
-import java.io.File
 
 
 class GalleryUtil {

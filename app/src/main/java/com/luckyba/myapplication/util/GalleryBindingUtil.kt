@@ -1,11 +1,9 @@
 package com.luckyba.myapplication.util
 
-import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DecodeFormat

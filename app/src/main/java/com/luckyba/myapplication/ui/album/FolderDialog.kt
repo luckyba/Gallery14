@@ -3,7 +3,6 @@ package com.luckyba.myapplication.ui.album
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
 import androidx.recyclerview.widget.DefaultItemAnimator

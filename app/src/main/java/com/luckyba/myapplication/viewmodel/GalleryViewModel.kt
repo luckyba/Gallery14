@@ -31,10 +31,10 @@ class GalleryViewModel : ViewModel() {
     }
 
     suspend fun getAllData() {
-        _listData.value = withContext(Dispatchers.IO) {
+        _listData.postValue(withContext(Dispatchers.IO) {
             Log.d("fdsafas", "Thread "+ Thread.currentThread().name)
             repository.getAlbums()
-        } as ArrayList<AlbumFolder>
+        } as ArrayList<AlbumFolder>)
     }
 
     suspend fun deleteListFile(listPath: MutableSet<String>) {

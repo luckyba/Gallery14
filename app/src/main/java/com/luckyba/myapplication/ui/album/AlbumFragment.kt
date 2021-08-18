@@ -18,7 +18,6 @@ import com.luckyba.myapplication.data.model.AlbumFolder
 import com.luckyba.myapplication.data.model.DataHolder
 import com.luckyba.myapplication.databinding.FragmentAlbumBinding
 import com.luckyba.myapplication.ui.media.MediaActivity
-import com.luckyba.myapplication.util.GalleryUtil
 import com.luckyba.myapplication.util.ObservableViewModel
 import com.luckyba.myapplication.util.StringUtils
 import com.luckyba.myapplication.util.StringUtils.showToast
@@ -79,7 +78,7 @@ class AlbumFragment : Fragment(), Listener {
         /**
          * using singletons object to save data
          */
-        DataHolder.listData = albumFolder
+        DataHolder.albums = albumFolder
         val intent = Intent(context, MediaActivity::class.java)
         intent.putExtra(StringUtils.EXTRA_ARGS_POSITION, position)
         requireActivity().startActivity(intent)

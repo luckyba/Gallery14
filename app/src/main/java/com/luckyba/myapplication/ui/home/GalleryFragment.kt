@@ -85,6 +85,7 @@ class GalleryFragment : BaseMediaGridFragment(), ActionsListener {
         setHasOptionsMenu(true)
         binding.homeModel!!.listData.observe(viewLifecycleOwner, {
             albumFolder = it[0]
+
             val albumFiles = it[0].albumFiles
             Collections.sort(
                 albumFiles, MediaComparators.getComparator(

@@ -19,9 +19,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions.fitCenterTransform
 import com.bumptech.glide.request.target.SimpleTarget
-import com.bumptech.glide.request.transition.Transition
 import com.luckyba.myapplication.R
 import com.luckyba.myapplication.common.ActionsListener
 import com.luckyba.myapplication.common.BaseActivity
@@ -77,9 +75,9 @@ class MediaActivity : BaseActivity("MediaActivity"), ActionsListener, EditModeLi
         binding.animate = AnimationUtils.loadAnimation(this, R.anim.roate)
 
         position = intent.getIntExtra(StringUtils.EXTRA_ARGS_POSITION, 0)
-        albumFolder = DataHolder.listData
+        albumFolder = DataHolder.albums
         albumFiles = albumFolder[position].albumFiles
-
+//        DataHolder.albums.clear()
         initView()
 
     }
@@ -97,7 +95,6 @@ class MediaActivity : BaseActivity("MediaActivity"), ActionsListener, EditModeLi
         viewModel.listData.observe(this, {
             binding.progressCircular.isVisible = false
             albumFolder = it
-            DataHolder.albums = it
             val albumFiles = it[position].albumFiles
             Collections.sort(
                 albumFiles, MediaComparators.getComparator(
@@ -415,7 +412,7 @@ class MediaActivity : BaseActivity("MediaActivity"), ActionsListener, EditModeLi
     }
 
     private fun updateToolbar(
-        title: String,
+        title: String?,
         editMode: Boolean,
         onClickListener: View.OnClickListener?
     ) {
@@ -444,7 +441,7 @@ class MediaActivity : BaseActivity("MediaActivity"), ActionsListener, EditModeLi
         if (selected > 0)
             updateToolbar(" $selected of $total ", editMode, listener)
         else {
-            updateToolbar(title!!, editMode, listener)
+            updateToolbar(title, editMode, listener)
         }
 
         invalidateOptionsMenu()

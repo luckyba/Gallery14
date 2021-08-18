@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.os.Environment
 import android.view.View
 import android.view.animation.AnimationUtils
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.luckyba.myapplication.MainActivity
 import com.luckyba.myapplication.R

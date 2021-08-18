@@ -3,7 +3,6 @@ package com.luckyba.myapplication.ui.detail
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
